@@ -1,10 +1,10 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//creacion de clase ViajeLugar
 class ViajeLugar {
-    constructor(idViaje,idTiempoDia,numDia) {
+    constructor(idViaje,idLugar,idTiempoDia,numDia) {
       this.id = null;
       this.idViaje = idViaje;
-      this.idLugar = null;
+      this.idLugar = idLugar;
       this.idTiempoDia = idTiempoDia;
       this.numDia = numDia;
  

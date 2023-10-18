@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//clase que controla al usuario 
 class UsuarioController {
-
+// metodo donde se registra al usuario
   static registrarUsuario(usuario, callback) {
     const sqlQuery = `INSERT INTO Usuario (nombre, apellido, correo, contraseña, usuario,celular,foto,idTipDoc,numDoc) VALUES 
     ('${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${usuario.contraseña}', '${usuario.usuario}', '${usuario.celular}', 
@@ -10,6 +10,7 @@ class UsuarioController {
     executeSqlQuery(sqlQuery, callback);
   }
   
+  //metodo para inicio de sesion
     static iniciarSesion(usuario, contraseña, callback) {
         const sqlQuery = `SELECT * FROM Usuario WHERE usuario = '${usuario}' AND contraseña = '${contraseña}'`;
 
@@ -26,7 +27,7 @@ class UsuarioController {
           }
         });
       }
-
+//metodo para obtener datos del usuario
       static getDatosUsuario(id, callback) {
         const sqlQuery = `SELECT * FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err, resultados) => {
@@ -44,7 +45,7 @@ class UsuarioController {
       }
 
 
-      
+      //metodo para traer usuario
 
       static getUsuario(id, callback){
         const sqlQuery = `SELECT usuario FROM Usuario WHERE id = '${id}'`;
@@ -63,14 +64,14 @@ class UsuarioController {
           });
     }
 
-//metodo para cambiar el nombre de usuario segun 
+//metodo para cambiar el nombre de usuario segun id 
 static setUsuario(id,nombreUsuario, callback){
     const sqlQuery = `UPDATE Usuario SET usuario = '${nombreUsuario}' WHERE id = '${id}'`;
     executeSqlQuery(sqlQuery, callback);
     console.log(sqlQuery);
     console.log('ce logro :0')
 }
-
+//metodo para setear todos los datos del usuario
 static setDatosUsuario(id, nuevoNombre, nuevoNombreUsuario, nuevoApellido, nuevoCorreo, nuevoCelular, nuevaFoto, callback) {
   const sqlQuery = `UPDATE Usuario SET 
     nombre = '${nuevoNombre}',
@@ -180,7 +181,7 @@ static setFoto(id,foto,callback){
     console.log(sqlQuery);
     console.log('ce logro :0')
 }
-
+//get de su celular
     static getCelular(id, callback) {
         const sqlQuery = `SELECT celular FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err,resultados) => {
@@ -215,7 +216,7 @@ static setFoto(id,foto,callback){
     }
 
     
-
+//get del tipo de documento del usuario
 static getTipodeDoc(id, callback) {
     const sqlQuery = `SELECT documento FROM Documento INNER JOIN Usuario ON Documento.id = Usuario.idTipDoc WHERE Usuario.id = '${id}'`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {
@@ -239,6 +240,7 @@ static getTipodeDoc(id, callback) {
     });
 }
 
+//get del num de documento del usuario
 static getnumDoc(id, callback){
     const sqlQuery = `SELECT numDoc FROM Usuario WHERE id = '${id}'`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {
@@ -256,6 +258,7 @@ static getnumDoc(id, callback){
       });
 }
 
+//set del num de documento del usuario
 static setnumDoc(id,numDoc,callback){
     const sqlQuery = `UPDATE Usuario SET numDoc = '${numDoc}' WHERE id = '${id}'`;
     executeSqlQuery(sqlQuery, callback);
@@ -263,7 +266,7 @@ static setnumDoc(id,numDoc,callback){
     console.log('ce logro :0 kekeke')
 }
 
-
+//get de la contraseña del usuario
 static getContrasena(id, callback){
   const sqlQuery = `SELECT contraseña FROM Usuario WHERE id = '${id}'`;
   executeSqlQueryGet(sqlQuery, (err, resultados) => {
@@ -282,7 +285,7 @@ static getContrasena(id, callback){
 }
 
 
-
+//set de lacontraseña del usuario
 
 static setContrasena(id,contrasena,callback){
   const sqlQuery = `UPDATE Usuario SET contraseña = '${contrasena}' WHERE id = '${id}'`;

@@ -3,7 +3,7 @@ const Actividad= require('../clases/Actividad');
 const Restaurante= require('../clases/Restaurante');
 const LugarTuristico= require('../clases/LugarTuristico');
 const { executeSqlQuery } = require('../database/database');
-
+//FABRICA DE LUGARES PARA LA CREACION DE LUGARES 
 class LugarFactory {
     static crearLugar(idTipoLugar) {
       switch (idTipoLugar) {

@@ -1,5 +1,6 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 //mientras puntajes seteados
+//creacion de tabla lugar
 class Lugar {
 
     constructor() {

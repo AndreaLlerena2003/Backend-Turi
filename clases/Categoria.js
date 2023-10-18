@@ -1,5 +1,5 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//creacion de clase categoria
 class Categoria {
     constructor(categoria) {
       this.id = null;
@@ -7,6 +7,7 @@ class Categoria {
       this.lugaresCat = [];
  
     }
+    //metodo que trae todas las categorias existentes
     static getCategorias(callback) {
         const sqlQuery = `SELECT * FROM Categoria`;
         executeSqlQueryGet(sqlQuery, (err, resultados) => {

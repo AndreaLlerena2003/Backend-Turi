@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//creacin de contorllador para manejar la clase Categoria
 class CategoriaController {
-
+//metodo para traer el get --> de todas los tipos de categoria
     static getCategorias(callback) {
         const sqlQuery = `SELECT * FROM Categoria`;
         executeSqlQueryGet(sqlQuery, (err, resultados) => {

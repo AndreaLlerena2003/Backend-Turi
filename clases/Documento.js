@@ -1,5 +1,5 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//clase documento -- dni,pasaporte, etc
 class Documento {
     constructor(documento) {
   

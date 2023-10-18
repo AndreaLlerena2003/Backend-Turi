@@ -1,5 +1,5 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//creacion de clase reseña
 class Reseña {
     constructor(fechaCreacion,comentario,puntaje) {
   

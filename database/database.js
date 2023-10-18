@@ -31,6 +31,8 @@ connection.on('connect', (err) => {
   }
 });
 
+
+//FUNCIONQ QUE NOS PERMITE HACER GET A NUESTRAS QUERYS SQL
 function executeSqlQueryGet(sqlQuery, callback) {
   const request = new Request(sqlQuery, (err, rowCount) => {
     if (err) {
@@ -61,6 +63,7 @@ function executeSqlQueryGet(sqlQuery, callback) {
   connection.execSql(request);
 }
 
+//FUNCIO QUE NOS PERMITE HACER POST A NUESTRAS SQL QUERYS
 function executeSqlQuery(sqlQuery, callback) {
   const request = new Request(sqlQuery, (err, rowCount) => {
     if (err) {
@@ -78,6 +81,7 @@ function executeSqlQuery(sqlQuery, callback) {
   connection.execSql(request);
 }
 
+//FUNCION QUE NOS PERMITE HACER POST DE NUESTRAS QUERYS OBTENIENDO UN GET COMO RESPUESTA
 function executeSqlQueryWithGet(sqlQuery, callback) {
   const request = new Request(sqlQuery, (err, rowCount) => {
     if (err) {

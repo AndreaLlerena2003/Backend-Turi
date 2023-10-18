@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//clase controladora del lugar recomendado
 class LugarRecomendadoController {
-
+//metodo que trae todos los tipos de Lugar recomendado
     static getLugarRecomendado(callback) {
         const sqlQuery = `SELECT * FROM LugarRecomendado`;
         executeSqlQueryGet(sqlQuery, (err, resultados) => {

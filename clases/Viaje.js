@@ -1,5 +1,5 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//creacion de clase viaje
 class Viaje {
     constructor(cantDias,idUsuario) {
       this.id = null;

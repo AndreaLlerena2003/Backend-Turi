@@ -1,4 +1,5 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
+//creacion de clase usuario
 class Usuario {
     constructor(nombre, apellido, correo, contraseña,usuario,celular,foto,idTipDoc,numDoc) {
   

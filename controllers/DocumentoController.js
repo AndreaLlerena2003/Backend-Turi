@@ -1,5 +1,5 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//clase controller del Documento del Usuario
 class DocumentoController {
 
     //traer nombre de tipo de documento segun id buscado

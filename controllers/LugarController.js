@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 
 class LugarController {
-
+//metodo para traer lugar recomendado segun id
   static traerLugarSegunLugarRecomendadoId(id, callback) {
     const sqlQuery = `SELECT * FROM Lugar WHERE Lugar.idTipoLugar = '${id}'`;
 
@@ -24,6 +24,8 @@ class LugarController {
     });
   }
 
+  //metodo para traer top5 de lugares
+
   static traerTop10Lugares(callback) {
     const sqlQuery = `SELECT TOP 5 * FROM Lugar WHERE LugarRecomendado.id = 1`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {
@@ -45,7 +47,7 @@ class LugarController {
     })
 
   }
-
+//metodo para traer top 5 de restaurantes
   static traerTop5SegunRestaurante(callback) {
     const sqlQuery = `SELECT TOP 5 Lugar.id, nombre, foto, puntaje, costo, distrito FROM Lugar
         INNER JOIN LugarRecomendado ON Lugar.idTipoLugar = LugarRecomendado.id
@@ -71,6 +73,7 @@ class LugarController {
 
   }
 
+  //metodo prara traer top5 segun actividad
   static traerTop5SegunActividad(callback) {
     const sqlQuery = `SELECT TOP 5 Lugar.id, nombre, foto, puntaje, costo, distrito FROM Lugar
     INNER JOIN LugarRecomendado ON Lugar.idTipoLugar = LugarRecomendado.id
@@ -95,6 +98,8 @@ class LugarController {
     })
 
   }
+
+  //metodo para traer to5 srgun Lugar turistico
 
   static traerTop5SegunLugarTuristico(callback) {
     const sqlQuery = `SELECT TOP 5 Lugar.id, nombre, foto, puntaje, costo, distrito FROM Lugar
@@ -121,6 +126,7 @@ class LugarController {
 
   }
 
+  //metodo para traer todos los lugares
 
   static traerTodosLosLugares(callback) {
     const sqlQuery = `SELECT id, nombre, costo, linkweb, horaInicio, horaFin FROM Lugar`;
@@ -142,6 +148,7 @@ class LugarController {
     });
   }
 
+  //metodo para traer lugar segun Id
   static traerLugarSegunId(id, callback) {
     const sqlQuery = `SELECT * FROM Lugar A WHERE A.id = ${id}`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {

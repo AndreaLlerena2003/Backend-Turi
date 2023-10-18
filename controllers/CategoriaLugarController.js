@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//clase que controla los lugares segun categoria
 class CategoriaLugarController {
-  
+  //metodo para traer todos los lugares segun categoria 
     static traerLugaresSegunCategoria(categoria, callback) {
         const sqlQuery = `SELECT * FROM Lugar 
         INNER JOIN LugarCategoria
@@ -28,6 +28,8 @@ class CategoriaLugarController {
         });
       }
 
+      //metodo para traer todas las categorias a las cuales pertenece un Lugar
+
       static getCategoriasPorLugar(idLugar, callback) {
         const sqlQuery = 
         `SELECT *
@@ -44,7 +46,7 @@ class CategoriaLugarController {
           }
         });
       }
-      
+      //metodo para traer los lugares segun el cateogriaId
       static traerLugaresSegunCategoriaId(categoriaId, callback) {
         const sqlQuery = `SELECT * FROM Lugar 
         INNER JOIN LugarCategoria

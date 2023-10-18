@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet,executeSqlQueryWithGet } = require('../database/database');
-
+//clase que se encarga de controllar el VIaje
 class ViajeController {
-
+//registro del viaje
     
   static registrarViaje(viaje, callback) {
     const insertQuery = `INSERT INTO Viaje (cantDias, idUsuario) OUTPUT INSERTED.id VALUES ('${viaje.cantDias}', '${viaje.idUsuario}');`
@@ -16,7 +16,7 @@ class ViajeController {
     });
     
   }
-
+//obetenr viaje segun id de Usuario
   static obtenerViaje(idUsuario, callback) {
     const sqlQuery = `SELECT * FROM VIAJE WHERE idUsuario = '${idUsuario}'`;
 

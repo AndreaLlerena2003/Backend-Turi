@@ -1,7 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
-
+//clase que maneja los Lugares asignados al viaje
 class ViajeLugarController {
-
+//se crea viaje vacio
     static crearRegistrosViajeLugar(idViaje, cantDias, callback) {
         const insertQueries = [];
         for (let numDia = 1; numDia <= cantDias; numDia++) {
@@ -29,7 +29,7 @@ class ViajeLugarController {
 
         executeQueries();
     }
-    
+    //se setea id lugar
     static setIdLugar(idLugar,idViaje,idTiempoDia, numDia, callback){
         const sqlQuery = `UPDATE ViajeLugar SET idLugar = '${idLugar}' WHERE idViaje = '${idViaje}' 
         AND idTiempoDia = '${idTiempoDia}' AND numDia = '${numDia}'`;
