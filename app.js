@@ -674,7 +674,7 @@ app.post('/viaje/registrar', (req, res) => {
   });
 });
 
-//endpoint para creacion de viaje
+//endpoint para creacion de viaje agregar Lugar al viaje
 app.post('/viajeLugar/registro', (req, res) => {
   const nuevoViajeLugar = new ViajeLugar(
     req.body.idViaje,
@@ -739,6 +739,7 @@ app.get('/lugares/top5restaurantes', (req, res) => {
     }
   });
 });
+
 
 //traer top 5 actividad
 app.get('/lugares/top5Actividad', (req, res) => {
