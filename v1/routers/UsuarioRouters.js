@@ -345,7 +345,9 @@ router
           console.log('Actualización de datos de usuario exitosa');
           res.status(200).json({ message: 'Datos de usuario actualizados con éxito' });
         });
-      });
+    });
+
+    
     
  
       
