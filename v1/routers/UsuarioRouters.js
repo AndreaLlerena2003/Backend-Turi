@@ -74,8 +74,9 @@ router
       })
     
     .get('/getNombreUsuario', (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getUsuario(id, (err, nombreUsuario) => {
+        
+        const token = req.body.token; 
+        UsuarioController.getUsuario(token, (err, nombreUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
             res.status(500).json('Error al inicio de sesión.');
@@ -94,8 +95,8 @@ router
       })
     
     .get('/getNombreVerdaderoUsuario', (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getNombre(id, (err, nombreUsuario) => {
+        const token = req.body.token;
+        UsuarioController.getNombre(token, (err, nombreUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
             res.status(500).json({ error: 'Error al inicio de sesión' });
@@ -114,8 +115,8 @@ router
     })
 
     .get('/getApellido', (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getApellido(id, (err, apellidoUsuario) => {
+        const token = req.body.token;
+        UsuarioController.getApellido(token, (err, apellidoUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
             res.status(500).json('Error al inicio de sesión.');
@@ -134,8 +135,8 @@ router
       })
     
     .get('/getCorreo', (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getCorreo(id, (err, correoUsuario) => {
+        const token = req.body.token;
+        UsuarioController.getCorreo(token, (err, correoUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
             res.status(500).json('Error.');
@@ -154,8 +155,8 @@ router
       })
     
     .get('/getCelular',(req,res) => {
-        const id = req.query.id;
-        UsuarioController.getCelular(id,(err,celularUsuario)=> {
+        const token = req.body.token;
+        UsuarioController.getCelular(token,(err,celularUsuario)=> {
           if(err){
             console.error('Error al encontrar usuario',err.message);
             res.status(500).json('Error. ');
@@ -174,8 +175,8 @@ router
       })
     
     .get('/getFoto',(req,res) => {
-        const id = req.query.id;
-        UsuarioController.getFoto(id,(err,fotoUsuario) => {
+        const token = req.body.token;
+        UsuarioController.getFoto(token,(err,fotoUsuario) => {
           if(err){
             console.error('error al encontrar usuario', err.message);
             res.status(500).json('Error. ');
@@ -194,8 +195,8 @@ router
       })
     
     .get('/getTipoDoc', (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getTipodeDoc(id, (err, tipoDocEncontrado) => {
+        const token = req.body.token;
+        UsuarioController.getTipodeDoc(token, (err, tipoDocEncontrado) => {
           if (err) {
             console.error('Error al encontrar usuario con su doc', err.message);
             res.status(500).json('Error');
@@ -214,9 +215,9 @@ router
       })
     
     .post('/postusuario', (req, res) => {
-        id = req.body.id;
+        const token = req.body.token; 
         nombreUsuario = req.body.usuario;
-        UsuarioController.setUsuario(id,nombreUsuario,(err, rowCount) => {
+        UsuarioController.setUsuario(token,nombreUsuario,(err, rowCount) => {
           if (err) {
             console.error('Error al  cambiar nombre de usuario:', err.message);
             res.status(500).send('Error al cambiar nombre usuario.');
@@ -227,10 +228,11 @@ router
         });
       })
     
+   
     .post('/postNombreUsuario',(req,res)=>{
-        id = req.body.id;
+        token = req.body.token;
         nombreUsuarioOfical = req.body.nombre;
-        UsuarioController.setNombreUsuario(id,nombreUsuarioOfical,(err,rowCount)=>{
+        UsuarioController.setNombreUsuario(token,nombreUsuarioOfical,(err,rowCount)=>{
           if(err){
             console.error('Error al cambiar nombre de usuario oficial: ', err.message);
             res.status(500).send('error al cambiar nombre de usuario');
@@ -242,9 +244,9 @@ router
       })
     
     .post('/postApellido',(req,res)=>{
-        id = req.body.id;
+        token = req.body.token;
         apellido = req.body.apellido;
-        UsuarioController.setApellido(id,apellido,(err,rowCount)=>{
+        UsuarioController.setApellido(token,apellido,(err,rowCount)=>{
           if(err){
             console.error('Error al cambiar apellido de usuario: ', err.message);
             res.status(500).send('error al cambiar el apellido de usuario');
@@ -256,9 +258,9 @@ router
       })
     
     .post('/postCorreo',(req,res)=>{
-        id = req.body.id;
+        token = req.body.token;
         correo = req.body.correo;
-        UsuarioController.setCorreo(id,correo,(err,rowCount)=>{
+        UsuarioController.setCorreo(token,correo,(err,rowCount)=>{
           if(err){
             console.error('Error al cambiar el correo de usuario: ', err.message);
             res.status(500).send('error al cambiar el correo de usuario');
@@ -270,9 +272,9 @@ router
       })
     
     .post('/postCelular',(req,res)=>{
-        id = req.body.id;
+        token = req.body.token;
         correo = req.body.celular;
-        UsuarioController.setCorreo(id,correo,(err,rowCount)=>{
+        UsuarioController.setCorreo(token,correo,(err,rowCount)=>{
           if(err){
             console.error('Error al cambiar el celular de usuario: ', err.message);
             res.status(500).send('error al cambiar el celular de usuario');
@@ -284,9 +286,9 @@ router
       })
 
     .post('/postFoto',(req,res)=>{
-        id = req.body.id;
+        token = req.body.token;
          foto = req.body.foto;
-         UsuarioController.setFoto(id,foto,(err,rowCount)=>{
+         UsuarioController.setFoto(token,foto,(err,rowCount)=>{
           if(err){
             console.error('Error al cambiar la foto del usuario: ', err.message);
             res.status(500).send('error al cambiar la foto del usuario');
@@ -298,8 +300,8 @@ router
       })
 
     .get('/getContrasena', (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getContrasena(id, (err, contraseñaUsuario) => {
+        const token = req.body.id;
+        UsuarioController.getContrasena(token, (err, contraseñaUsuario) => {
           if (err) {
             console.error('Error al encontrar contraseña', err.message);
             res.status(500).json({ error: 'Error al recuperar la contraseña' });
@@ -316,10 +318,10 @@ router
       })
     
     .post('/setContrasena', (req, res) => {
-        const id = req.body.id; 
+        const token = req.body.token; 
         const contrasena = req.body.contrasena;
       
-        UsuarioController.setContrasena(id, contrasena, (err, resultado) => {
+        UsuarioController.setContrasena(token, contrasena, (err, resultado) => {
           if (err) {
             console.error('Error al actualizar contraseña', err.message);
             res.status(500).json({ error: 'Error al actualizar la contraseña' });
@@ -337,9 +339,8 @@ router
     
     .post('/actualizarDatosUsuario', (req, res) => {
   
-        const { id, nombre, usuario, apellido, correo, celular, foto } = req.body;
-      
-        UsuarioController.setDatosUsuario(id, nombre, usuario, apellido, correo, celular, foto, (err) => {
+        const { token, nombre, usuario, apellido, correo, celular, foto } = req.body;      
+        UsuarioController.setDatosUsuario(token, nombre, usuario, apellido, correo, celular, foto, (err) => {
           if (err) {
             console.error('Error al actualizar los datos del usuario:', err);
             return res.status(500).json({ error: 'Error al actualizar los datos del usuario.' });

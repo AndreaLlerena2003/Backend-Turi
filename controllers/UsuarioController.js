@@ -79,7 +79,11 @@ static getDatosUsuario(token, callback) {
 
       //metodo para traer usuario
 
-      static getUsuario(id, callback){
+  static getUsuario(token, callback){
+        const result = verifyToken(token);
+        if(!result.error){
+        const id = result.decoded.id;
+        console.log('ID del usuario:', id);
         const sqlQuery = `SELECT usuario FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err, resultados) => {
             if (err) {
@@ -93,35 +97,65 @@ static getDatosUsuario(token, callback) {
                 callback(null, nombreUsuario);
               }
             }
-          });
-    }
+          })}else{
+            console.log('Token no válido');
+          };
+  }
 
 //metodo para cambiar el nombre de usuario segun id 
-static setUsuario(id,nombreUsuario, callback){
+static setUsuario(token,nombreUsuario, callback){
+    const result = verifyToken(token);
+    if(!result.error){
+    const id = result.decoded.id;
     const sqlQuery = `UPDATE Usuario SET usuario = '${nombreUsuario}' WHERE id = '${id}'`;
-    executeSqlQuery(sqlQuery, callback);
-    console.log(sqlQuery);
-    console.log('ce logro :0')
+    executeSqlQuery(sqlQuery, (err, resultado) => {
+      if (err) {
+          console.error('Error al actualizar el nombre de usuario:', err.message);
+          callback(err);
+      } else {
+          console.log('Se actualizó el nombre de usuario con éxito.');
+          callback(null, resultado);
+      }
+  });}
+    else{
+      console.log('Token no válido');
+    }
 }
 //metodo para setear todos los datos del usuario
-static setDatosUsuario(id, nuevoNombre, nuevoNombreUsuario, nuevoApellido, nuevoCorreo, nuevoCelular, nuevaFoto, callback) {
-  const sqlQuery = `UPDATE Usuario SET 
-    nombre = '${nuevoNombre}',
-    usuario = '${nuevoNombreUsuario}',
-    apellido = '${nuevoApellido}',
-    correo = '${nuevoCorreo}',
-    celular = '${nuevoCelular}',
-    foto = '${nuevaFoto}'
-    WHERE id = '${id}'`;
-  
-  executeSqlQuery(sqlQuery, callback);
-  console.log(sqlQuery);
-  console.log('ce logro :0');
+static setDatosUsuario(token, nuevoNombre, nuevoNombreUsuario, nuevoApellido, nuevoCorreo, nuevoCelular, nuevaFoto, callback) {
+  const result = verifyToken(token);
+  if (!result.error) {
+    const id = result.decoded.id;
+    const sqlQuery = `UPDATE Usuario SET 
+      nombre = '${nuevoNombre}',
+      usuario = '${nuevoNombreUsuario}',
+      apellido = '${nuevoApellido}',
+      correo = '${nuevoCorreo}',
+      celular = '${nuevoCelular}',
+      foto = '${nuevaFoto}'
+      WHERE id = '${id}'`;
+    executeSqlQuery(sqlQuery, (err, resultado) => {
+      if (err) {
+        console.error('Error al actualizar todos los datos:', err.message);
+        callback(err);
+      } else {
+        console.log('Se actualizó todos los datos con éxito.');
+        callback(null, resultado);
+      }
+    });
+  } else {
+    console.log('Token no válido');
+    callback(new Error('Token no válido'));
+  }
 }
+
 
 
 //metodo para traer el nombre verdader0
-    static getNombre(id, callback){
+    static getNombre(token, callback){
+      const result = verifyToken(token);
+      if (!result.error) {
+        const id = result.decoded.id;
         const sqlQuery = `SELECT nombre FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err, resultados) => {
             if (err) {
@@ -136,20 +170,32 @@ static setDatosUsuario(id, nuevoNombre, nuevoNombreUsuario, nuevoApellido, nuevo
               }
             }
           });
+        }else{
+          console.log('Token no válido');
+          callback(new Error('Token no válido'));
+        }
     
     }
 
 //metodo para setear el nombre oficial
-static setNombreUsuario(id,nombreUsuarioOfical,callback){
-    const sqlQuery = `UPDATE Usuario SET nombre = '${nombreUsuarioOfical}' WHERE id = '${id}'`;
-    executeSqlQuery(sqlQuery, callback);
-    console.log(sqlQuery);
-    console.log('ce logro :0')
+static setNombreUsuario(token,nombreUsuarioOfical,callback){
+    const result = verifyToken(token);
+    if(!result.error){
+      const id = result.decoded.id;
+      const sqlQuery = `UPDATE Usuario SET nombre = '${nombreUsuarioOfical}' WHERE id = '${id}'`;
+      executeSqlQuery(sqlQuery, callback);
+      console.log(sqlQuery);
+      console.log('ce logro :0')}else{
+        console.log('Token no válido');
+      }
 }
 
     //metodo get para traer el apellido 
 
-    static getApellido(id, callback) {
+  static getApellido(token, callback) {
+        const result = verifyToken(token);
+      if(!result.error){
+        const id = result.decoded.id;
         const sqlQuery = `SELECT apellido FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err,resultados) => {
             if(err){
@@ -163,18 +209,29 @@ static setNombreUsuario(id,nombreUsuarioOfical,callback){
                     callback(null,apellidoUsuario);
                 }
             }
-        })
+        })}
+        else{
+          console.log('Token no válido');
+        }
     }
 
 //metodo para setear el apellido 
-static setApellido(id,apellido,callback){
+static setApellido(token,apellido,callback){
+   const result = verifyToken(token);
+   if(!result.error){
+    const id = result.decoded.id;
     const sqlQuery = `UPDATE Usuario SET apellido = '${apellido}' WHERE id = '${id}'`;
     executeSqlQuery(sqlQuery, callback);
     console.log(sqlQuery);
-    console.log('ce logro :0')
+    console.log('ce logro :0')}else{
+      console.log('Token no válido');
+    }
 }
 
-    static getCorreo(id, callback) {
+    static getCorreo(token, callback) {
+        const result = verifyToken(token);
+        if(!result.error){
+        const id = result.decoded.id;
         const sqlQuery = `SELECT correo FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err,resultados) => {
             if(err){
@@ -188,33 +245,53 @@ static setApellido(id,apellido,callback){
                     callback(null,correoUsuario);
                 }
             }
-        })
+        })}else{
+          console.log('Token no válido');
+        }
     }
 
 //metodo para setear el correo
-    static setCorreo(id,correo,callback){
+    static setCorreo(token,correo,callback){
+        const result = verifyToken(token);
+        if(!result.error){
+        const id = result.decoded.id;
         const sqlQuery = `UPDATE Usuario SET correo = '${correo}' WHERE id = '${id}'`;
         executeSqlQuery(sqlQuery, callback);
         console.log(sqlQuery);
-        console.log('ce logro :0')
+        console.log('ce logro :0')}else{
+          console.log('Token no válido');
+        }
     }
 
 //metodo para setear el celular
-static setCelular(id,celular,callback){
+static setCelular(token,celular,callback){
+    const result = verifyToken(token);
+    if(!result.error){
+    const id = result.decoded.id;
     const sqlQuery = `UPDATE Usuario SET celular = '${celular}' WHERE id = '${id}'`;
     executeSqlQuery(sqlQuery, callback);
     console.log(sqlQuery);
-    console.log('ce logro :0')
+    console.log('ce logro :0')}else{
+      console.log("Token no valido");
+    }
 }
 //metodo para setear la foto
 static setFoto(id,foto,callback){
+    const result = verifyToken(token);
+    if(!result.error){
+    const id = result.decoded.id;
     const sqlQuery = `UPDATE Usuario SET foto = '${foto}' WHERE id = '${id}'`;
     executeSqlQuery(sqlQuery, callback);
     console.log(sqlQuery);
-    console.log('ce logro :0')
+    console.log('ce logro :0')}else{
+      console.log('Token no valido');
+    }
 }
 //get de su celular
-    static getCelular(id, callback) {
+    static getCelular(token, callback) {
+      const result = verifyToken(token);
+      if(!result.error){
+        const id = result.decoded.id;
         const sqlQuery = `SELECT celular FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery, (err,resultados) => {
             if(err){
@@ -228,9 +305,14 @@ static setFoto(id,foto,callback){
                     callback(null,celularUsuario);
                 }
             }
-        })
+        })}else{
+          console.log('Token no valido');
+        }
     }
-    static getFoto(id,callback){
+    static getFoto(token,callback){
+      const result =  verifyToken(token);
+      if(!result.error){
+        const id = result.decoded.id;
         const sqlQuery = `SELECT foto FROM Usuario WHERE id = '${id}'`;
         executeSqlQueryGet(sqlQuery,(err,resultados) => {
             if(err){
@@ -244,12 +326,18 @@ static setFoto(id,foto,callback){
                     callback(null,fotoUsuario);
                 }
             }
-        })
+        })}else{
+          console.log('Token no valido');
+        }
+
     }
 
     
 //get del tipo de documento del usuario
-static getTipodeDoc(id, callback) {
+static getTipodeDoc(token, callback) {
+    const result = verifyToken(token);
+    if(!result.error){
+    const id = result.decoded.id;
     const sqlQuery = `SELECT documento FROM Documento INNER JOIN Usuario ON Documento.id = Usuario.idTipDoc WHERE Usuario.id = '${id}'`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {
         if (err) {
@@ -269,11 +357,16 @@ static getTipodeDoc(id, callback) {
                 }
             }
         }
-    });
+    });}else{
+      console.log('Token no valido');
+    }
 }
 
 //get del num de documento del usuario
-static getnumDoc(id, callback){
+static getnumDoc(token, callback){
+    const result = verifyToken(token);
+    if(!result.error){
+    const id = result.decoded.id;
     const sqlQuery = `SELECT numDoc FROM Usuario WHERE id = '${id}'`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {
         if (err) {
@@ -287,19 +380,46 @@ static getnumDoc(id, callback){
             callback(null, numDocUsuario);
           }
         }
-      });
+      });}else{
+        console.log('Token no valido');
+      }
 }
 
 //set del num de documento del usuario
-static setnumDoc(id,numDoc,callback){
-    const sqlQuery = `UPDATE Usuario SET numDoc = '${numDoc}' WHERE id = '${id}'`;
-    executeSqlQuery(sqlQuery, callback);
-    console.log(sqlQuery);
-    console.log('ce logro :0 kekeke')
+
+static setnumDoc(token, numDoc, callback) {
+  const result = verifyToken(token);
+
+  if (result.error) {
+      console.error('Error al verificar el token:', result.error.message);
+      return callback(new Error('Token no válido'));
+  }
+
+  const id = result.decoded.id;
+  const sqlQuery = `UPDATE Usuario SET numDoc = '${numDoc}' WHERE id = '${id}'`;
+
+  executeSqlQuery(sqlQuery, (error, result) => {
+      if (error) {
+          console.error('Error al ejecutar la consulta SQL:', error.message);
+          return callback(error);
+      }
+
+      if (result.affectedRows === 0) {
+          console.log('Usuario no encontrado');
+          return callback(new Error('Usuario no encontrado'));
+      }
+
+      console.log('Número de documento actualizado con éxito');
+      callback(null, 'Número de documento actualizado con éxito');
+  });
 }
 
+
 //get de la contraseña del usuario
-static getContrasena(id, callback){
+static getContrasena(token, callback){
+  const result = verifyToken(token);
+  if(!result.error){
+  const id = result.decoded.id;
   const sqlQuery = `SELECT contraseña FROM Usuario WHERE id = '${id}'`;
   executeSqlQueryGet(sqlQuery, (err, resultados) => {
       if (err) {
@@ -313,20 +433,42 @@ static getContrasena(id, callback){
           callback(null, contraseñaUsuario);
         }
       }
-    });
+    });}else{
+      console.log('Token no valido');
+    }
 }
 
 
 //set de lacontraseña del usuario
 
-static setContrasena(id,contrasena,callback){
+
+
+static setContrasena(token, contrasena, callback) {
+  const result = verifyToken(token);
+
+  if (result.error) {
+      console.error('Error al verificar el token:', result.error.message);
+      return callback(new Error('Token no válido'));
+  }
+
+  const id = result.decoded.id;
   const sqlQuery = `UPDATE Usuario SET contraseña = '${contrasena}' WHERE id = '${id}'`;
-  executeSqlQuery(sqlQuery, callback);
-  console.log(sqlQuery);
-  console.log('ce logro :0 kekeke')
+
+  executeSqlQuery(sqlQuery, (error, result) => {
+      if (error) {
+          console.error('Error al ejecutar la consulta SQL:', error.message);
+          return callback(error);
+      }
+
+      if (result.affectedRows === 0) {
+          console.log('Usuario no encontrado');
+          return callback(new Error('Usuario no encontrado'));
+      }
+
+      console.log('Contraseña actualizada con éxito');
+      callback(null, 'Contraseña actualizada con éxito');
+  });
 }
-
-
 
 
   }
