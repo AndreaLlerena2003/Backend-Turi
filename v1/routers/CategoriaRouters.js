@@ -4,7 +4,7 @@ const Categoria = require('../../clases/Categoria');
 const router = express.Router();
 
 router
-    .get('/categoria/getTodasCategorias', (req, res) => {
+    .get('/getTodasCategorias', (req, res) => {
         CategoriaController.getCategorias((err, categorias) => {
         if (err) {
             console.error('Error al encontrar todos los tipos de categoria:', err.message);

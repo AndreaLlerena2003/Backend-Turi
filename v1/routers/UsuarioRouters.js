@@ -5,10 +5,10 @@ const router = express.Router();
 
 
 router
-
     .get("/getDatosUsuario", (req, res) => {
-        const id = req.query.id;
-        UsuarioController.getDatosUsuario(id, (err, datosUsuario) => {
+        const token = req.body.token; // Extraer el token del cuerpo JSON
+
+        UsuarioController.getDatosUsuario(token, (err, datosUsuario) => {
             if (err) {
                 console.error('Error al encontrar usuario', err.message);
                 res.status(500).json({ error: 'Error al buscar datos.' });
@@ -52,19 +52,22 @@ router
         const usuario = req.query.usuario;
         const contraseña = req.query.contraseña;
       
-        UsuarioController.iniciarSesion(usuario, contraseña, (err, usuarioEncontrado) => {
+        UsuarioController.iniciarSesion(usuario, contraseña, (err, usuarioEncontrado,token) => {
           if (err) {
             console.error('Error al iniciar sesión:', err.message);
             res.status(500).send('Error al iniciar sesión.');
           } else {
             if (usuarioEncontrado) {
               console.log('Inicio de sesión exitoso.');
-              const idUsuario = String(usuarioEncontrado.id);
-              console.log('ID del usuario:', idUsuario);
-              res.status(200).send(idUsuario);
+              console.log(usuarioEncontrado);
+              //const idUsuario = usuarioEncontrado.usuario.id;
+              //console.log('ID del usuario:', idUsuario);
+              const tokenJWT = token.token;
+              console.log(tokenJWT)
+              res.status(200).json({tokenJWT});
             } else {
               console.log('Credenciales de inicio de sesión incorrectas.');
-              res.status(401).send('Credenciales de inicio de sesión incorrectas.');
+              res.status(401).json('Credenciales de inicio de sesión incorrectas.');
             }
           }
         });

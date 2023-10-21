@@ -1,5 +1,12 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
+const jwt = require('jsonwebtoken');//para manejo de tokens de inicio de sesion
+//manejo de aleteoridad de clave secreta de tokens
 //clase que controla al usuario 
+const config = require('../database/config');
+const secretKey= config.secretKey;
+const verifyToken  = require('../middleware/auth');
+
+
 class UsuarioController {
 // metodo donde se registra al usuario
   static registrarUsuario(usuario, callback) {
@@ -10,6 +17,7 @@ class UsuarioController {
     executeSqlQuery(sqlQuery, callback);
   }
   
+  
   //metodo para inicio de sesion
     static iniciarSesion(usuario, contraseña, callback) {
         const sqlQuery = `SELECT * FROM Usuario WHERE usuario = '${usuario}' AND contraseña = '${contraseña}'`;
@@ -19,31 +27,55 @@ class UsuarioController {
             callback(err);
           } else {
             if (resultados.length === 0) {
-              callback(null, null); // usuario no encontrado
+              return callback(new Error('Usuario no encontrado'), null);
+              //callback(null, null); // usuario no encontrado
             } else {
               const usuarioEncontrado = resultados[0]; // el primer resultado es el usuario que inicia sesión
-              callback(null, usuarioEncontrado);
-            }
+            try{
+             
+              const token = jwt.sign({ 
+                id: usuarioEncontrado.id, 
+                usuario: usuarioEncontrado.usuario,
+                exp: Math.floor(Date.now() / 1000) + (180 * 60) // El token expira en 3 horas
+            }, secretKey);
+
+              callback(null, usuarioEncontrado, {token: token});
+            }catch(error){
+              console.error('Error al generar el token:', error.message);
+              callback(new Error('Error al generar el token.'));
+            }}
           }
         });
       }
 //metodo para obtener datos del usuario
-      static getDatosUsuario(id, callback) {
-        const sqlQuery = `SELECT * FROM Usuario WHERE id = '${id}'`;
-        executeSqlQueryGet(sqlQuery, (err, resultados) => {
+static getDatosUsuario(token, callback) {
+  try {
+     
+      const result = verifyToken(token);
+      if(!result.error){
+      const userId = result.decoded.id;
+      console.log('ID del usuario:', userId);
+      const sqlQuery = `SELECT * FROM Usuario WHERE id = '${userId}'`;
+      executeSqlQueryGet(sqlQuery, (err, resultados) => {
           if (err) {
-            callback(err);
+              callback(err);
           } else {
-            if (resultados.length === 0) {
-              callback(null, null); // usuario no encontrado
-            } else {
-              const usuarioEncontrado = resultados[0]; // el primer resultado es el usuario que inicia sesión
-              callback(null, usuarioEncontrado);
-            }
+              if (resultados.length === 0) {
+                  callback(null, null); // Usuario no encontrado
+              } else {
+                  const usuarioEncontrado = resultados[0]; // El primer resultado es el usuario
+                  callback(null, usuarioEncontrado);
+              }
           }
-        });
-      }
-
+      })}
+      else{
+        console.log('Token no válido');
+      };
+  } catch (error) {
+      console.error('Error al decodificar el token:', error.message);
+      callback(new Error('Error al decodificar el token.'));
+  }
+}
 
       //metodo para traer usuario
 
