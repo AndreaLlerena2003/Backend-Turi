@@ -2,16 +2,24 @@ const express = require('express');
 const ViajeController = require('../../controllers/ViajeController');
 const Viaje = require('../../clases/Viaje');
 const router = express.Router();
-
+const config = require('../../database/config');
+const secretKey= config.secretKey;
+const verifyToken  = require('../../middleware/auth');
 
 router
 //crear intinerario funciones
     .post('/registro', (req, res) => {
+        const token = req.body.token;
+        const result = verifyToken(token);
+        if (result.error) {
+          console.error('Error al verificar el token:', result.error.message);
+          return res.status(401).send('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
+        }
+        const idUsuario = result.decoded.id;
         const viaje = new Viaje(
-        req.body.cantDias,
-        req.body.idUsuario
+          req.body.cantDias,
+          idUsuario
         );
-    
         ViajeController.registrarViaje(viaje, (result) => {
         if (result.error) {
             console.error('Error al registrar el viaje:', result.error.message);
@@ -22,6 +30,10 @@ router
         }
         });
     })
+
+
+
+
 
     .post('/registrar', (req, res) => {
         const viaje = new Viaje(
