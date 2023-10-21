@@ -37,7 +37,8 @@ connection.on('connect', (err) => {
 function executeSqlQueryGet(sqlQuery, callback) {
   const request = new Request(sqlQuery, (err, rowCount) => {
     if (err) {
-      callback(err);
+      console.error('Error en la consulta SQL:', err.message); // Registra el error en la consola
+      callback(err); // Llama al callback con el error
     }
   });
 
@@ -58,21 +59,22 @@ function executeSqlQueryGet(sqlQuery, callback) {
   });
 
   request.on('error', (err) => {
-    callback(err);
+    console.error('Error en la consulta SQL:', err.message); // Registra el error en la consola
+    callback(err); // Llama al callback con el error
   });
 
   connection.execSql(request);
 }
 
-//FUNCIO QUE NOS PERMITE HACER POST A NUESTRAS SQL QUERYS
 function executeSqlQuery(sqlQuery, callback) {
   const request = new Request(sqlQuery, (err, rowCount) => {
     if (err) {
-      callback(err);
+      console.error('Error en la consulta SQL:', err.message); // Registra el error en la consola
+      callback(err); // Llama al callback con el error
     } else {
       console.log("Filas afectadas:", rowCount);
+      callback(null, rowCount); // Llama al callback sin error
     }
-    callback(err, rowCount);
   });
 
   request.on('row', (columns) => {
@@ -81,6 +83,7 @@ function executeSqlQuery(sqlQuery, callback) {
 
   connection.execSql(request);
 }
+
 
 //FUNCION QUE NOS PERMITE HACER POST DE NUESTRAS QUERYS OBTENIENDO UN GET COMO RESPUESTA
 function executeSqlQueryWithGet(sqlQuery, callback) {

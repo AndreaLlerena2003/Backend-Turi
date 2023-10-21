@@ -25,29 +25,29 @@ router
     })
 
     .post('/registro', (req, res) => {
-        const nuevoUsuario = new Usuario(
-          req.body.nombre,
-          req.body.apellido,
-          req.body.correo,
-          req.body.contraseña,
-          req.body.usuario,
-          req.body.celular,
-          req.body.foto,
-          req.body.idTipDoc,
-          req.body.numDoc,
-        );
-      
-        UsuarioController.registrarUsuario(nuevoUsuario, (err, rowCount) => {
-          if (err) {
-            console.error('Error al registrar usuario:', err.message);
-            res.status(500).json('Error al registrar usuario.');
-          } else {
-            console.log('Usuario registrado con éxito.');
-            res.status(200).json('Usuario registrado con éxito.');
-          }
-        })
-      })
-    
+      const nuevoUsuario = new Usuario(
+        req.body.nombre,
+        req.body.apellido,
+        req.body.correo,
+        req.body.contraseña,
+        req.body.usuario,
+        req.body.celular,
+        req.body.foto,
+        req.body.idTipDoc,
+        req.body.numDoc,
+      );
+  
+      UsuarioController.registrarUsuario(nuevoUsuario, (response) => {
+        if (!response.success) {
+          console.error('Error al registrar usuario:', response.message);
+          res.status(500).json({ error: response.message, details: response.errorDetails });
+        } else {
+          console.log('Usuario registrado con éxito.');
+          res.status(200).json({ success: true, message: 'Usuario registrado con éxito' });
+        }
+      });
+  })
+  
     .get('/login', (req, res) => {
         const usuario = req.query.usuario;
         const contraseña = req.query.contraseña;

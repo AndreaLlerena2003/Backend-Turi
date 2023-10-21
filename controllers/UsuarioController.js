@@ -9,13 +9,87 @@ const verifyToken  = require('../middleware/auth');
 
 class UsuarioController {
 // metodo donde se registra al usuario
-  static registrarUsuario(usuario, callback) {
+  /*static registrarUsuario(usuario, callback) {
     const sqlQuery = `INSERT INTO Usuario (nombre, apellido, correo, contraseña, usuario,celular,foto,idTipDoc,numDoc) VALUES 
     ('${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${usuario.contraseña}', '${usuario.usuario}', '${usuario.celular}', 
     '${usuario.foto}','${usuario.idTipDoc}','${usuario.numDoc}');`
 
     executeSqlQuery(sqlQuery, callback);
-  }
+  }*/
+
+  
+  static registrarUsuario(usuario, callback) {
+    const response = { success: false, message: '', errorDetails: null };
+
+    if (
+        !usuario.nombre ||
+        !usuario.apellido ||
+        !usuario.correo ||
+        !usuario.contraseña ||
+        !usuario.usuario ||
+        !usuario.celular ||
+        !usuario.idTipDoc ||
+        !usuario.numDoc
+    ) {
+        response.message = 'Todos los campos son obligatorios.';
+        return callback(response);
+    }
+
+    if (
+        usuario.nombre.trim() === "" ||
+        usuario.apellido.trim() === "" ||
+        usuario.correo.trim() === "" ||
+        usuario.contraseña.trim() === "" ||
+        usuario.usuario.trim() === "" ||
+        usuario.celular === 0 ||  // Asegúrate de que sea igual a cero si no es válido
+        usuario.idTipDoc === 0 || // Asegúrate de que sea igual a cero si no es válido
+        usuario.numDoc === 0     // Asegúrate de que sea igual a cero si no es válido
+    ) {
+        response.message = 'Ningún campo debe estar vacío.';
+        return callback(response);
+    }
+
+    if (!/(?=.*[A-Z])(.{7,})/.test(usuario.contraseña)) {
+        response.message = 'La contraseña debe contener al menos una letra mayúscula y ser de al menos 7 caracteres.';
+        return callback(response);
+    }
+
+    const checkUserQuery = `SELECT COUNT(*) AS count FROM Usuario WHERE usuario = '${usuario.usuario}'`;
+
+    executeSqlQueryGet(checkUserQuery, (err, result) => {
+        if (err) {
+            response.message = 'Error en la base de datos.';
+            response.errorDetails = err.message; // Incluir detalles de error en errorDetails
+            return callback(response);
+        }
+
+        const userCount = result[0].count;
+        if (userCount > 0) {
+            response.message = 'El nombre de usuario ya está en uso.';
+            return callback(response);
+        }
+
+        // Si pasa todas las validaciones, procede con la inserción
+        const sqlQuery = `INSERT INTO Usuario (nombre, apellido, correo, contraseña, usuario, celular, foto, idTipDoc, numDoc) VALUES 
+        ('${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${usuario.contraseña}', '${usuario.usuario}', '${usuario.celular}', 
+        '${usuario.foto}', '${usuario.idTipDoc}', '${usuario.numDoc}')`;
+
+        executeSqlQuery(sqlQuery, (err) => {
+            if (err) {
+                response.message = 'Error al registrar el usuario en la base de datos.';
+                response.errorDetails = err.message; // Incluir detalles de error en errorDetails
+            } else {
+                response.success = true;
+                response.message = 'Usuario registrado con éxito.';
+            }
+            callback(response);
+        });
+    });
+}
+
+
+
+
   
   
   //metodo para inicio de sesion

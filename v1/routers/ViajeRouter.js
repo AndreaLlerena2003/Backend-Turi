@@ -11,29 +11,26 @@ router
     .post('/registro', (req, res) => {
         const token = req.body.token;
         const result = verifyToken(token);
+        console.log(result);
         if (result.error) {
           console.error('Error al verificar el token:', result.error.message);
-          return res.status(401).send('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
+          return res.status(401).json('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
         }
         const idUsuario = result.decoded.id;
         const viaje = new Viaje(
           req.body.cantDias,
           idUsuario
         );
-        ViajeController.registrarViaje(viaje, (result) => {
-        if (result.error) {
-            console.error('Error al registrar el viaje:', result.error.message);
-            res.status(500).send('Error al registrar el viaje.');
+        ViajeController.registrarViaje(viaje, (err,nuevoIdViaje) => {
+        if (err) {
+            console.error('Error al registrar el viaje:', err);
+            res.status(500).json('Error al registrar el viaje.');
         } else {
             console.log('Viaje registrado con éxito.');
-            res.status(200).json({ message: 'Viaje registrado con éxito.', idViaje: result.lastInsertId });
+            res.status(200).json({ message: 'Viaje registrado con éxito.', idViaje: nuevoIdViaje });
         }
         });
     })
-
-
-
-
 
     .post('/registrar', (req, res) => {
         const viaje = new Viaje(
