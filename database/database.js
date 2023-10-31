@@ -116,6 +116,40 @@ function executeSqlQueryWithGet(sqlQuery, callback) {
   connection.execSql(request);
 }
 
+
+async function executeSqlQueryWithGet(sqlQuery) {
+  return new Promise((resolve, reject) => {
+    const request = new Request(sqlQuery, (err, rowCount) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    const resultados = [];
+
+    request.on('row', (columns) => {
+      const rowData = {};
+
+      columns.forEach((column) => {
+        rowData[column.metadata.colName] = column.value;
+      });
+
+      resultados.push(rowData);
+    });
+
+    request.on('requestCompleted', () => {
+      resolve(resultados);
+    });
+
+    request.on('error', (err) => {
+      reject(err);
+    });
+
+    connection.execSql(request);
+  });
+}
+
+
 module.exports = {
   executeSqlQueryWithGet,
   executeSqlQuery,

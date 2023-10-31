@@ -12,9 +12,11 @@ const v1ReseñaRouter = require("./v1/routers/ReseñaRouter");
 
 
 
+
 const {executeSqlQuery, executeSqlQueryGet,executeSqlQueryWithGet } = require('./database/database'); 
 const cors = require("cors");
 const bodyParser = require('body-parser');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;

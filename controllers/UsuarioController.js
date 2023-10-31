@@ -5,18 +5,11 @@ const jwt = require('jsonwebtoken');//para manejo de tokens de inicio de sesion
 const config = require('../database/config');
 const secretKey= config.secretKey;
 const verifyToken  = require('../middleware/auth');
+const { transporter } = require('../database/mailer');
 
 
 class UsuarioController {
 // metodo donde se registra al usuario
-  /*static registrarUsuario(usuario, callback) {
-    const sqlQuery = `INSERT INTO Usuario (nombre, apellido, correo, contraseña, usuario,celular,foto,idTipDoc,numDoc) VALUES 
-    ('${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${usuario.contraseña}', '${usuario.usuario}', '${usuario.celular}', 
-    '${usuario.foto}','${usuario.idTipDoc}','${usuario.numDoc}');`
-
-    executeSqlQuery(sqlQuery, callback);
-  }*/
-
   
   static registrarUsuario(usuario, callback) {
     const response = { success: false, message: '', errorDetails: null };
@@ -41,9 +34,9 @@ class UsuarioController {
         usuario.correo.trim() === "" ||
         usuario.contraseña.trim() === "" ||
         usuario.usuario.trim() === "" ||
-        usuario.celular === 0 ||  // Asegúrate de que sea igual a cero si no es válido
-        usuario.idTipDoc === 0 || // Asegúrate de que sea igual a cero si no es válido
-        usuario.numDoc === 0     // Asegúrate de que sea igual a cero si no es válido
+        usuario.celular === 0 ||  
+        usuario.idTipDoc === 0 || 
+        usuario.numDoc === 0     
     ) {
         response.message = 'Ningún campo debe estar vacío.';
         return callback(response);
@@ -52,6 +45,11 @@ class UsuarioController {
     if (!/(?=.*[A-Z])(.{7,})/.test(usuario.contraseña)) {
         response.message = 'La contraseña debe contener al menos una letra mayúscula y ser de al menos 7 caracteres.';
         return callback(response);
+    }
+    const gmailRegex = /@gmail\.com$/;
+    if(!gmailRegex.test(usuario.correo)){
+      response.message = 'El correo debe ser de una cuenta de gmail.';
+      return callback(response);
     }
 
     const checkUserQuery = `SELECT COUNT(*) AS count FROM Usuario WHERE usuario = '${usuario.usuario}'`;
@@ -84,16 +82,58 @@ class UsuarioController {
             }
             callback(response);
         });
+        try{
+          transporter.sendMail({
+          from: '"Cuenta validada" <20201173@aloe.ulima.edu.com.pe>', // sender address
+          to: usuario.correo, // list of receivers
+          subject: "Validación de Cuenta", // Subject line
+          //text: "Tu cuenta ha sido validada", // plain text body
+          html: `
+          <html>
+            <head>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f0f0f0;
+                  text-align: center;
+                  padding: 20px;
+                }
+          
+                .container {
+                  background-color: #fff;
+                  border-radius: 5px;
+                  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                  padding: 20px;
+                }
+          
+                h1 {
+                  color: #007BFF;
+                }
+          
+                p {
+                  font-size: 16px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>Tu cuenta de Turi ha sido validada</h1>
+                <p>¡Felicidades! Tu cuenta ha sido verificada con éxito. Ahora puedes acceder a todos los servicios de nuestra aplicación.</p>
+              </div>
+            </body>
+          </html>
+          `, // html body
+        })}catch (error){
+           response.message = "Error al enviar el mensaje de validacion";
+           response.errorDetails = error.message; 
+           return callback(response);
+        };
+        
     });
 }
 
-
-
-
-  
-  
   //metodo para inicio de sesion
-    static iniciarSesion(usuario, contraseña, callback) {
+  static iniciarSesion(usuario, contraseña, callback) {
         const sqlQuery = `SELECT * FROM Usuario WHERE usuario = '${usuario}' AND contraseña = '${contraseña}'`;
 
         executeSqlQueryGet(sqlQuery, (err, resultados) => {
@@ -101,8 +141,8 @@ class UsuarioController {
             callback(err);
           } else {
             if (resultados.length === 0) {
-              return callback(new Error('Usuario no encontrado'), null);
-              //callback(null, null); // usuario no encontrado
+              //return callback(new Error('Usuario no encontrado'), null);
+              callback(null, null); // usuario no encontrado
             } else {
               const usuarioEncontrado = resultados[0]; // el primer resultado es el usuario que inicia sesión
             try{
@@ -116,12 +156,12 @@ class UsuarioController {
               callback(null, usuarioEncontrado, {token: token});
             }catch(error){
               console.error('Error al generar el token:', error.message);
-              callback(new Error('Error al generar el token.'));
+              //callback(new Error('Error al generar el token.'));
             }}
           }
         });
       }
-//metodo para obtener datos del usuario
+
 static getDatosUsuario(token, callback) {
   try {
      

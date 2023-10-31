@@ -49,8 +49,8 @@ router
   })
   
     .get('/login', (req, res) => {
-        const usuario = req.query.usuario;
-        const contraseña = req.query.contraseña;
+        const usuario = req.body.usuario;
+        const contraseña = req.body.contraseña;
       
         UsuarioController.iniciarSesion(usuario, contraseña, (err, usuarioEncontrado,token) => {
           if (err) {
@@ -72,6 +72,8 @@ router
           }
         });
       })
+
+      
     
     .get('/getNombreUsuario', (req, res) => {
         
