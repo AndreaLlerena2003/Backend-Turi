@@ -37,9 +37,9 @@ router
     //endpoint para traer todos los favoritos del usuario
 
     .get('/TraerTodosFav', (req, res) => {
-        const id = req.query.id; 
+        const token = req.query.token; 
     
-        FavoritoController.traerTodosFavorito(id, (err, lugaresFavoritos) => {
+        FavoritoController.traerTodosFavorito(token, (err, lugaresFavoritos) => {
         if (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: ';vvvvvvvvvvvv' });
@@ -56,8 +56,8 @@ router
 
     // Ruta para verificar si un lugar es favorito para un usuario
     .get('/verificarFavorito', (req, res) => {
-        const token = req.body.token; // Obtenemos el ID del usuario desde los parámetros de consulta
-        const idLugar = req.body.idLugar; // Obtenemos el ID del lugar desde los parámetros de consulta
+        const token = req.query.token; // Obtenemos el ID del usuario desde los parámetros de consulta
+        const idLugar = req.query.idLugar; // Obtenemos el ID del lugar desde los parámetros de consulta
     
         FavoritoController.getFavorito(token, idLugar, (err, favorito) => {
         if (err) {
@@ -75,8 +75,8 @@ router
 
     // Ruta para eliminar un favorito por ID de usuario e ID de lugar
     .delete('/eliminar', (req, res) => {
-        const token = req.body.token; // ID del usuario
-        const idLugar = req.body.idLugar; // ID del lugar
+        const token = req.query.token; // ID del usuario
+        const idLugar = req.query.idLugar; // ID del lugar
     
         FavoritoController.eliminarFavorito(token, idLugar, (err, resultado) => {
         if (err) {

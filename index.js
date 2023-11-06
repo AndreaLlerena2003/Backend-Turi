@@ -31,8 +31,8 @@ app.use("/api/v1/FavoritoRouter",v1FavoritoRouter);
 app.use("/api/v1/LugarRecomendadoRouter",v1LugarRecomendadoRouter);
 app.use("/api/v1/ViajeRouter",v1ViajeRouter);
 app.use("/api/v1/ViajeLugarRouter",v1ViajeLugarRouter);
-app.use("api/v1/LugarRouter",v1LugarRouter);
-app.use("api/v1/ReseñaRouter",v1ReseñaRouter);
+app.use("/api/v1/LugarRouter",v1LugarRouter);
+app.use("/api/v1/ReseñaRouter",v1ReseñaRouter);
 
 
 

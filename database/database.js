@@ -4,12 +4,12 @@ const { Connection, Request } = require('tedious');
 
 
 const config = {
-  server: 'localhost',
+  server: 'MSI',
   authentication: {
     type: 'default',
     options: {
-      userName: 'andrea',
-      password: 'bella12345',
+      userName: 'alejandra',
+      password: '12345',
     },
   },
   options: {

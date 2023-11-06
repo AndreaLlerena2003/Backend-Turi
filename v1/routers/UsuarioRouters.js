@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
     .get("/getDatosUsuario", (req, res) => {
-        const token = req.body.token; // Extraer el token del cuerpo JSON
+        const token = req.query.token; // Extraer el token del cuerpo JSON
 
         UsuarioController.getDatosUsuario(token, (err, datosUsuario) => {
             if (err) {
@@ -49,8 +49,8 @@ router
   })
   
     .get('/login', (req, res) => {
-        const usuario = req.body.usuario;
-        const contraseña = req.body.contraseña;
+        const usuario = req.query.usuario;
+        const contraseña = req.query.contraseña;
       
         UsuarioController.iniciarSesion(usuario, contraseña, (err, usuarioEncontrado,token) => {
           if (err) {
@@ -64,7 +64,10 @@ router
               //console.log('ID del usuario:', idUsuario);
               const tokenJWT = token.token;
               console.log(tokenJWT)
-              res.status(200).json({tokenJWT});
+              res.status(200).json({
+                "token": tokenJWT,
+                "id" : usuarioEncontrado.id
+              });
             } else {
               console.log('Credenciales de inicio de sesión incorrectas.');
               res.status(401).json('Credenciales de inicio de sesión incorrectas.');
@@ -77,7 +80,7 @@ router
     
     .get('/getNombreUsuario', (req, res) => {
         
-        const token = req.body.token; 
+        const token = req.query.token; 
         UsuarioController.getUsuario(token, (err, nombreUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
@@ -97,7 +100,7 @@ router
       })
     
     .get('/getNombreVerdaderoUsuario', (req, res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         UsuarioController.getNombre(token, (err, nombreUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
@@ -117,7 +120,7 @@ router
     })
 
     .get('/getApellido', (req, res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         UsuarioController.getApellido(token, (err, apellidoUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
@@ -137,7 +140,7 @@ router
       })
     
     .get('/getCorreo', (req, res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         UsuarioController.getCorreo(token, (err, correoUsuario) => {
           if (err) {
             console.error('Error al encontrar usuario', err.message);
@@ -157,7 +160,7 @@ router
       })
     
     .get('/getCelular',(req,res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         UsuarioController.getCelular(token,(err,celularUsuario)=> {
           if(err){
             console.error('Error al encontrar usuario',err.message);
@@ -177,7 +180,7 @@ router
       })
     
     .get('/getFoto',(req,res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         UsuarioController.getFoto(token,(err,fotoUsuario) => {
           if(err){
             console.error('error al encontrar usuario', err.message);
@@ -197,7 +200,7 @@ router
       })
     
     .get('/getTipoDoc', (req, res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         UsuarioController.getTipodeDoc(token, (err, tipoDocEncontrado) => {
           if (err) {
             console.error('Error al encontrar usuario con su doc', err.message);
@@ -302,7 +305,7 @@ router
       })
 
     .get('/getContrasena', (req, res) => {
-        const token = req.body.id;
+        const token = req.query.id;
         UsuarioController.getContrasena(token, (err, contraseñaUsuario) => {
           if (err) {
             console.error('Error al encontrar contraseña', err.message);

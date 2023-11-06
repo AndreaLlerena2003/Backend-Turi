@@ -1,6 +1,6 @@
 const express = require('express');
-const ViajeController = require('../../controllers/ViajeController');
-const Viaje = require('../../clases/Viaje');
+const ViajeLugarController = require('../../controllers/ViajeLugarController');
+const ViajeLugar = require('../../clases/ViajeLugar');
 const router = express.Router();
 
 router
