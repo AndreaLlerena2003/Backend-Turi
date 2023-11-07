@@ -4,12 +4,12 @@ const { Connection, Request } = require('tedious');
 
 
 const config = {
-  server: 'MSI',
+  server: 'localhost',
   authentication: {
     type: 'default',
     options: {
-      userName: 'alejandra',
-      password: '12345',
+      userName: 'andrea',
+      password: 'bella12345',
     },
   },
   options: {
@@ -83,9 +83,6 @@ function executeSqlQuery(sqlQuery, callback) {
 
   connection.execSql(request);
 }
-
-
-//FUNCION QUE NOS PERMITE HACER POST DE NUESTRAS QUERYS OBTENIENDO UN GET COMO RESPUESTA
 function executeSqlQueryWithGet(sqlQuery, callback) {
   const request = new Request(sqlQuery, (err, rowCount) => {
     if (err) {
@@ -117,37 +114,8 @@ function executeSqlQueryWithGet(sqlQuery, callback) {
 }
 
 
-async function executeSqlQueryWithGet(sqlQuery) {
-  return new Promise((resolve, reject) => {
-    const request = new Request(sqlQuery, (err, rowCount) => {
-      if (err) {
-        reject(err);
-      }
-    });
+//FUNCION QUE NOS PERMITE HACER POST DE NUESTRAS QUERYS OBTENIENDO UN GET COMO RESPUESTA
 
-    const resultados = [];
-
-    request.on('row', (columns) => {
-      const rowData = {};
-
-      columns.forEach((column) => {
-        rowData[column.metadata.colName] = column.value;
-      });
-
-      resultados.push(rowData);
-    });
-
-    request.on('requestCompleted', () => {
-      resolve(resultados);
-    });
-
-    request.on('error', (err) => {
-      reject(err);
-    });
-
-    connection.execSql(request);
-  });
-}
 
 
 module.exports = {

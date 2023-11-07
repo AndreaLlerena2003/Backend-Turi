@@ -9,7 +9,7 @@ const verifyToken  = require('../../middleware/auth');
 router
 //crear intinerario funciones
     .post('/registro', (req, res) => {
-        const token = req.body.token;
+        const token = req.query.token;
         const result = verifyToken(token);
         console.log(result);
         if (result.error) {
@@ -18,7 +18,7 @@ router
         }
         const idUsuario = result.decoded.id;
         const viaje = new Viaje(
-          req.body.cantDias,
+          req.query.cantDias,
           idUsuario
         );
         ViajeController.registrarViaje(viaje, (err,nuevoIdViaje) => {
