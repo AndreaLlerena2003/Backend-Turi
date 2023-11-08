@@ -1,0 +1,49 @@
+{
+    "data": {
+      "idViaje": 7,
+      "dias": [
+        {
+          "numDia": 1,
+          "momentos": [
+            {
+              "idTiempoDia": 1,
+              "lugares": [
+                { "idLugar": 4 },
+                { "idLugar": 2 },
+                { "idLugar": 6 }
+              ]
+            },
+            {
+              "idTiempoDia": 2,
+              "lugares": [
+                { "idLugar": 1 },
+                { "idLugar": 5 },
+                { "idLugar": 6 }
+              ]
+            },
+            {
+              "idTiempoDia": 3,
+              "lugares": [
+                { "idLugar": 2 },
+                { "idLugar": 1 },
+                { "idLugar": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "numDia": 2,
+          "momentos": [
+            {
+              "idTiempoDia": 2,
+              "lugares": [
+                { "idLugar": 1 },
+                { "idLugar": 2 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+}
+  

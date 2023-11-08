@@ -2,33 +2,51 @@ const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 //clase que maneja los Lugares asignados al viaje
 class ViajeLugarController {
 //se crea viaje vacio
-    static crearRegistrosViajeLugar(idViaje, cantDias, callback) {
-        const insertQueries = [];
-        for (let numDia = 1; numDia <= cantDias; numDia++) {
-            for (let idTiempoDia = 1; idTiempoDia <= 3; idTiempoDia++) {
-                insertQueries.push(
-                    `INSERT INTO ViajeLugar (idViaje, idLugar, idTiempoDia, numDia) VALUES (${idViaje}, NULL, ${idTiempoDia}, ${numDia})`
-                );
-            }
-        }
 
-        async function executeQueries() {
-            for (const query of insertQueries) {
-                await new Promise((resolve) => {
-                    executeSqlQuery(query, (result) => {
-                        if (result && result.error) {
-                            callback(result);
-                        } else {
-                            resolve();
-                        }
-                    });
-                });
-            }
-            callback({ message: 'Registros en ViajeLugar creados con éxito.' });
+    static crearRegistrosViajeLugarDos(data, callback) {
+      const idViaje = data.data.idViaje;
+      console.log(idViaje);
+      const diasArray = data.data.dias;
+      const insertQueries = [];
+    
+      for (const dia of diasArray) {
+        const numDia = dia.numDia;
+        const momentos = dia.momentos;
+    
+        for (const momento of momentos) {
+          const idTiempoDia = momento.idTiempoDia;
+          const lugares = momento.lugares;
+    
+          for (const lugar of lugares) {
+            const idLugar = lugar.idLugar;
+            insertQueries.push(
+              `INSERT INTO ViajeLugar (idViaje, idLugar, idTiempoDia, numDia) VALUES (${idViaje}, ${idLugar}, ${idTiempoDia}, ${numDia});`
+            );
+          }
         }
-
-        executeQueries();
+      }
+    
+      async function executeQueries() {
+        for (const query of insertQueries) {
+          await new Promise((resolve) => {
+            executeSqlQuery(query, (result) => {
+              if (result && result.error) {
+                callback(result);
+              } else {
+                resolve();
+              }
+            });
+          });
+        }
+        callback({ message: 'Registros en ViajeLugar creados con éxito.' });
+      }
+    
+      executeQueries();
     }
+    
+  
+
+    
     //se setea id lugar
     static setIdLugar(idLugar,idViaje,idTiempoDia, numDia, callback){
         const sqlQuery = `UPDATE ViajeLugar SET idLugar = '${idLugar}' WHERE idViaje = '${idViaje}' 
