@@ -64,10 +64,7 @@ router
               //console.log('ID del usuario:', idUsuario);
               const tokenJWT = token.token;
               console.log(tokenJWT)
-              res.status(200).json({
-                "token": tokenJWT,
-                "id" : usuarioEncontrado.id
-              });
+              res.status(200).json({tokenJWT});
             } else {
               console.log('Credenciales de inicio de sesión incorrectas.');
               res.status(401).json('Credenciales de inicio de sesión incorrectas.');
