@@ -20,6 +20,26 @@ router
           }
       });
   })
+
+  .get('/traerItinerarioPorId',(req,res)=>{
+    const token = req.query.token;
+    const idViaje = req.query.idViaje
+    ViajeLugarController.traerItinerario(token,idViaje,(err, resultados) => {
+      if(err){
+        console.error('Error al encontrar usuario', err.message);
+        res.status(500).json('Error.');
+      }else{
+        if(resultados){
+          console.log('Se encontró itinerario');
+          console.log('resultados:' + resultados);
+          res.status(200).json({data: resultados});
+        }else{
+          console.log('Itinaerio no encontrado');
+          res.status(401).send('itinerario no encontrado');
+        }
+      }
+    })
+  })
   
 
     .post('/setIdLugar', (req, res) => {

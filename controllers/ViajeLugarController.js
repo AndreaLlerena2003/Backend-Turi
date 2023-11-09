@@ -1,7 +1,33 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
+const config = require('../database/config');
+const secretKey= config.secretKey;
+const verifyToken  = require('../middleware/auth');
+const jwt = require('jsonwebtoken');
+
 //clase que maneja los Lugares asignados al viaje
 class ViajeLugarController {
 //se crea viaje vacio
+    static traerItinerario(token,idViaje,callback){
+      const result = verifyToken(token);
+      if (!result.error) {
+        const idUsuario = result.decoded.id;
+        const sqlQuery = `SELECT a.*, b.*, c.nombre, c.foto
+        FROM Viaje a
+        INNER JOIN ViajeLugar b ON a.id = b.idViaje
+        INNER JOIN Lugar c ON b.idLugar = c.id
+        WHERE a.idUsuario = ${idUsuario} AND b.idViaje = ${idViaje};`;
+        executeSqlQueryGet(sqlQuery,(err,resultados)=>{
+          if(err){
+            callback(err);
+          }else{
+            callback(null, resultados);
+          }
+        })
+      }else{
+        console.log('Token no valido');
+      }
+
+    }
 
     static crearRegistrosViajeLugarDos(data, callback) {
       const idViaje = data.data.idViaje;

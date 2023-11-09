@@ -1,0 +1,66 @@
+{
+  "data": {
+    "idViaje": 7,
+    "dias": [
+      {
+        "numDia": 1,
+        "momentos": [
+          {
+            "idTiempoDia": 1,
+            "lugares": [
+              { "idLugar": 4 ,
+              "nombre":"Barbarian",
+              "foto":"url"
+            
+            },
+              { "idLugar": 2 ,
+              "nombre":"Barbarian",
+              "foto":"url"},
+              { "idLugar": 6 ,
+              "nombre":"Barbarian",
+              "foto":"url"}
+            ]
+          },
+          {
+            "idTiempoDia": 2,
+            "lugares": [
+              { "idLugar": 1 ,
+              "nombre":"Barbarian",
+              "foto":"url"},
+              { "idLugar": 5 ,"nombre":"Barbarian",
+              "foto":"url"},
+              { "idLugar": 6 ,
+              "nombre":"Barbarian",
+              "foto":"url"}
+            ]
+          },
+          {
+            "idTiempoDia": 3,
+            "lugares": [
+              { "idLugar": 2 ,"nombre":"Barbarian",
+              "foto":"url"},
+              { "idLugar": 1 ,"nombre":"Barbarian",
+              "foto":"url"},
+              { "idLugar": 3,"nombre":"Barbarian",
+              "foto":"url" }
+            ]
+          }
+        ]
+      },
+      {
+        "numDia": 2,
+        "momentos": [
+          {
+            "idTiempoDia": 2,
+            "lugares": [
+              { "idLugar": 1,"nombre":"Barbarian",
+              "foto":"url" },
+              { "idLugar": 2,"nombre":"Barbarian",
+              "foto":"url" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
