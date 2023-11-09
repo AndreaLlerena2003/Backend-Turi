@@ -31,8 +31,39 @@ router
       }else{
         if(resultados){
           console.log('Se encontró itinerario');
-          console.log('resultados:' + resultados);
-          res.status(200).json({data: resultados});
+          const original = { data: resultados };
+          const bonito = {
+            "data": {
+              "idViaje": original.data[0].idViaje,
+              "dias": []
+            }
+          };
+          const diasMapeados = new Map();
+          original.data.forEach((item)=>{
+            if(!diasMapeados.has(item.numDia)){
+              diasMapeados.set(item.numDia,{
+                numDia: item.numDia,
+                momentos:[]
+              })
+            }
+            diasMapeados.get(item.numDia).momentos.push({
+              idTiempoDia: item.idTiempoDia,
+              lugares:[
+                {
+                  idLugar:item.idLugar,
+                  nombre:item.nombre,
+                  foto:item.foto
+                }
+              ]
+            });
+          });
+
+          diasMapeados.forEach((day) => {
+            bonito.data.dias.push(day);
+
+          });
+
+          res.status(200).json(bonito);
         }else{
           console.log('Itinaerio no encontrado');
           res.status(401).send('itinerario no encontrado');

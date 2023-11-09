@@ -1,66 +1,127 @@
 {
   "data": {
-    "idViaje": 7,
-    "dias": [
-      {
-        "numDia": 1,
-        "momentos": [
+      "idViaje": 7,
+      "dias": [
           {
-            "idTiempoDia": 1,
-            "lugares": [
-              { "idLugar": 4 ,
-              "nombre":"Barbarian",
-              "foto":"url"
-            
-            },
-              { "idLugar": 2 ,
-              "nombre":"Barbarian",
-              "foto":"url"},
-              { "idLugar": 6 ,
-              "nombre":"Barbarian",
-              "foto":"url"}
-            ]
+              "numDia": 1,
+              "momentos": [
+                  {
+                      "idTiempoDia": 1,
+                      "lugares": [
+                          {
+                              "idLugar": 4,
+                              "nombre": "Barbarian",
+                              "foto": "https://pbs.twimg.com/profile_images/1382827540214124554/1bCirvRV_400x400.jpg"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 1,
+                      "lugares": [
+                          {
+                              "idLugar": 2,
+                              "nombre": "Cafe de Lima",
+                              "foto": "https://sed.pe/wp-content/uploads/2021/10/sed21_web_proyectos_CDL-01-02-scaled.jpg"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 1,
+                      "lugares": [
+                          {
+                              "idLugar": 6,
+                              "nombre": "Museo Larco",
+                              "foto": "https://www.museolarco.org/wp-content/themes/mltheme/images/logo.png"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 2,
+                      "lugares": [
+                          {
+                              "idLugar": 1,
+                              "nombre": "Tanta",
+                              "foto": "https://i.pinimg.com/1200x/29/1c/b5/291cb59379301c2544dbb8816cf49ac1.jpg"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 2,
+                      "lugares": [
+                          {
+                              "idLugar": 5,
+                              "nombre": "Mare Di Gelato",
+                              "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtlPvbjsiQ83BYIOI7cBkylunNR6xb33sfV8VUm1EN6g&s"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 2,
+                      "lugares": [
+                          {
+                              "idLugar": 6,
+                              "nombre": "Museo Larco",
+                              "foto": "https://www.museolarco.org/wp-content/themes/mltheme/images/logo.png"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 3,
+                      "lugares": [
+                          {
+                              "idLugar": 2,
+                              "nombre": "Cafe de Lima",
+                              "foto": "https://sed.pe/wp-content/uploads/2021/10/sed21_web_proyectos_CDL-01-02-scaled.jpg"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 3,
+                      "lugares": [
+                          {
+                              "idLugar": 1,
+                              "nombre": "Tanta",
+                              "foto": "https://i.pinimg.com/1200x/29/1c/b5/291cb59379301c2544dbb8816cf49ac1.jpg"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 3,
+                      "lugares": [
+                          {
+                              "idLugar": 3,
+                              "nombre": "Siete Sopas",
+                              "foto": "https://mir-s3-cdn-cf.behance.net/projects/404/5f7d3e155851719.Y3JvcCwyNDgwLDE5MzksMCww.jpg"
+                          }
+                      ]
+                  }
+              ]
           },
           {
-            "idTiempoDia": 2,
-            "lugares": [
-              { "idLugar": 1 ,
-              "nombre":"Barbarian",
-              "foto":"url"},
-              { "idLugar": 5 ,"nombre":"Barbarian",
-              "foto":"url"},
-              { "idLugar": 6 ,
-              "nombre":"Barbarian",
-              "foto":"url"}
-            ]
-          },
-          {
-            "idTiempoDia": 3,
-            "lugares": [
-              { "idLugar": 2 ,"nombre":"Barbarian",
-              "foto":"url"},
-              { "idLugar": 1 ,"nombre":"Barbarian",
-              "foto":"url"},
-              { "idLugar": 3,"nombre":"Barbarian",
-              "foto":"url" }
-            ]
+              "numDia": 2,
+              "momentos": [
+                  {
+                      "idTiempoDia": 2,
+                      "lugares": [
+                          {
+                              "idLugar": 1,
+                              "nombre": "Tanta",
+                              "foto": "https://i.pinimg.com/1200x/29/1c/b5/291cb59379301c2544dbb8816cf49ac1.jpg"
+                          }
+                      ]
+                  },
+                  {
+                      "idTiempoDia": 2,
+                      "lugares": [
+                          {
+                              "idLugar": 2,
+                              "nombre": "Cafe de Lima",
+                              "foto": "https://sed.pe/wp-content/uploads/2021/10/sed21_web_proyectos_CDL-01-02-scaled.jpg"
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      },
-      {
-        "numDia": 2,
-        "momentos": [
-          {
-            "idTiempoDia": 2,
-            "lugares": [
-              { "idLugar": 1,"nombre":"Barbarian",
-              "foto":"url" },
-              { "idLugar": 2,"nombre":"Barbarian",
-              "foto":"url" }
-            ]
-          }
-        ]
-      }
-    ]
+      ]
   }
 }
