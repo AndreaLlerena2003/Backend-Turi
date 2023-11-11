@@ -31,6 +31,7 @@ class ViajeLugarController {
 
     static crearRegistrosViajeLugarDos(data, callback) {
       const idViaje = data.data.idViaje;
+    
       console.log(idViaje);
       const diasArray = data.data.dias;
       const insertQueries = [];

@@ -6,7 +6,7 @@
           "numDia": 1,
           "momentos": [
             {
-              "idTiempoDia": 1,
+              "idTiempoDia": 1, 
               "lugares": [
                 { "idLugar": 4 },
                 { "idLugar": 2 },

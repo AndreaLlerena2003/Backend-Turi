@@ -1,0 +1,124 @@
+{"data": [
+    {
+        "id": 11,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 4,
+        "idTiempoDia": 1,
+        "numDia": 1,
+        "nombre": "Barbarian",
+        "foto": "https://pbs.twimg.com/profile_images/1382827540214124554/1bCirvRV_400x400.jpg"
+    },
+    {
+        "id": 12,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 2,
+        "idTiempoDia": 1,
+        "numDia": 1,
+        "nombre": "Cafe de Lima",
+        "foto": "https://sed.pe/wp-content/uploads/2021/10/sed21_web_proyectos_CDL-01-02-scaled.jpg"
+    },
+    {
+        "id": 13,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 6,
+        "idTiempoDia": 1,
+        "numDia": 1,
+        "nombre": "Museo Larco",
+        "foto": "https://www.museolarco.org/wp-content/themes/mltheme/images/logo.png"
+    },
+    {
+        "id": 14,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 1,
+        "idTiempoDia": 2,
+        "numDia": 1,
+        "nombre": "Tanta",
+        "foto": "https://i.pinimg.com/1200x/29/1c/b5/291cb59379301c2544dbb8816cf49ac1.jpg"
+    },
+    {
+        "id": 15,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 5,
+        "idTiempoDia": 2,
+        "numDia": 1,
+        "nombre": "Mare Di Gelato",
+        "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtlPvbjsiQ83BYIOI7cBkylunNR6xb33sfV8VUm1EN6g&s"
+    },
+    {
+        "id": 16,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 6,
+        "idTiempoDia": 2,
+        "numDia": 1,
+        "nombre": "Museo Larco",
+        "foto": "https://www.museolarco.org/wp-content/themes/mltheme/images/logo.png"
+    },
+    {
+        "id": 17,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 2,
+        "idTiempoDia": 3,
+        "numDia": 1,
+        "nombre": "Cafe de Lima",
+        "foto": "https://sed.pe/wp-content/uploads/2021/10/sed21_web_proyectos_CDL-01-02-scaled.jpg"
+    },
+    {
+        "id": 18,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 1,
+        "idTiempoDia": 3,
+        "numDia": 1,
+        "nombre": "Tanta",
+        "foto": "https://i.pinimg.com/1200x/29/1c/b5/291cb59379301c2544dbb8816cf49ac1.jpg"
+    },
+    {
+        "id": 19,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 3,
+        "idTiempoDia": 3,
+        "numDia": 1,
+        "nombre": "Siete Sopas",
+        "foto": "https://mir-s3-cdn-cf.behance.net/projects/404/5f7d3e155851719.Y3JvcCwyNDgwLDE5MzksMCww.jpg"
+    },
+    {
+        "id": 20,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 1,
+        "idTiempoDia": 2,
+        "numDia": 2,
+        "nombre": "Tanta",
+        "foto": "https://i.pinimg.com/1200x/29/1c/b5/291cb59379301c2544dbb8816cf49ac1.jpg"
+    },
+    {
+        "id": 21,
+        "cantDias": 2,
+        "idUsuario": 1,
+        "idViaje": 7,
+        "idLugar": 2,
+        "idTiempoDia": 2,
+        "numDia": 2,
+        "nombre": "Cafe de Lima",
+        "foto": "https://sed.pe/wp-content/uploads/2021/10/sed21_web_proyectos_CDL-01-02-scaled.jpg"
+    }
+]
+}

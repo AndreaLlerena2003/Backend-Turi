@@ -32,21 +32,21 @@ router
         if(resultados){
           console.log('Se encontró itinerario');
           const original = { data: resultados };
-          const bonito = {
+          const bonito = { //data tendra como inicio el valor de idViaje 
             "data": {
               "idViaje": original.data[0].idViaje,
-              "dias": []
+              "dias": [] //y tmb tendra un array de dias 
             }
           };
           const diasMapeados = new Map();
-          original.data.forEach((item)=>{
-            if(!diasMapeados.has(item.numDia)){
+          original.data.forEach((item)=>{//por cada objeto del MAPA
+            if(!diasMapeados.has(item.numDia)){ //si los dias mapeados no tiene un la llave del numDia
               diasMapeados.set(item.numDia,{
-                numDia: item.numDia,
-                momentos:[]
+                numDia: item.numDia, //se setea el valor del numDia como nueva clave
+                momentos:[] //momentos sera un array de lugares de ese dia
               })
             }
-            diasMapeados.get(item.numDia).momentos.push({
+            diasMapeados.get(item.numDia).momentos.push({ //se llena el array de momentos con los datos del tiempoDia respectivo y la info del lugar
               idTiempoDia: item.idTiempoDia,
               lugares:[
                 {
@@ -58,12 +58,12 @@ router
             });
           });
 
-          diasMapeados.forEach((day) => {
+          diasMapeados.forEach((day) => { //cada dia mapeado se agrega al json ahora bonito 
             bonito.data.dias.push(day);
 
           });
 
-          res.status(200).json(bonito);
+          res.status(200).json(bonito); //enviamos el json que ahora esta mas bonito que el anterior
         }else{
           console.log('Itinaerio no encontrado');
           res.status(401).send('itinerario no encontrado');
