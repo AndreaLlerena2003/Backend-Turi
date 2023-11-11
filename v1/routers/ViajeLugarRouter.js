@@ -21,58 +21,42 @@ router
       });
   })
 
-  .get('/traerItinerarioPorId',(req,res)=>{
+  .get('/traerItinerarioPorId', (req, res) => {
     const token = req.query.token;
-    const idViaje = req.query.idViaje
-    ViajeLugarController.traerItinerario(token,idViaje,(err, resultados) => {
-      if(err){
-        console.error('Error al encontrar usuario', err.message);
-        res.status(500).json('Error.');
-      }else{
-        if(resultados){
-          console.log('Se encontró itinerario');
-          const original = { data: resultados };
-          const bonito = { //data tendra como inicio el valor de idViaje 
-            "data": {
-              "idViaje": original.data[0].idViaje,
-              "dias": [] //y tmb tendra un array de dias 
-            }
-          };
-          const diasMapeados = new Map();
-          original.data.forEach((item)=>{//por cada objeto del MAPA
-            if(!diasMapeados.has(item.numDia)){ //si los dias mapeados no tiene un la llave del numDia
-              diasMapeados.set(item.numDia,{
-                numDia: item.numDia, //se setea el valor del numDia como nueva clave
-                momentos:[] //momentos sera un array de lugares de ese dia
-              })
-            }
-            diasMapeados.get(item.numDia).momentos.push({ //se llena el array de momentos con los datos del tiempoDia respectivo y la info del lugar
-              idTiempoDia: item.idTiempoDia,
-              lugares:[
-                {
-                  idLugar:item.idLugar,
-                  nombre:item.nombre,
-                  foto:item.foto
-                }
-              ]
-            });
-          });
-
-          diasMapeados.forEach((day) => { //cada dia mapeado se agrega al json ahora bonito 
-            bonito.data.dias.push(day);
-
-          });
-
-          res.status(200).json(bonito); //enviamos el json que ahora esta mas bonito que el anterior
-        }else{
-          console.log('Itinaerio no encontrado');
-          res.status(401).send('itinerario no encontrado');
-        }
-      }
-    })
-  })
+    const idViaje = req.query.idViaje;
   
-
+    ViajeLugarController.traerItinerario(token, idViaje, (err, resultados) => {
+      if (err) {
+        console.error('Error al encontrar itinerario', err.message);
+        res.status(500).json('Error al buscar el itinerario.');
+      } else {
+        const formattedData = formatResponse(resultados);
+        res.status(200).json(formattedData);
+      }
+    });
+  
+    function formatResponse(resultados) {
+      if (!resultados || resultados.length === 0) {
+        return { data: { idViaje: '', cantDias: '', dias: [] } };
+      }
+  
+      const data = { idViaje: resultados[0].idViaje || '', cantDias: resultados[0].cantDias || '', dias: [] };
+  
+      resultados.forEach((resultado) => {
+        const { numDia, idLugar, nombre, foto } = resultado;
+        const lugar = { idLugar, nombre, foto };
+  
+        const dia = data.dias.find((d) => d.numDia === numDia);
+        if (dia) {
+          dia.lugares.push(lugar);
+        } else {
+          data.dias.push({ numDia, lugares: [lugar] });
+        }
+      });
+  
+      return { data };
+    }
+  })
     .post('/setIdLugar', (req, res) => {
         const { idLugar, idViaje, idTiempoDia, numDia } = req.body;
       

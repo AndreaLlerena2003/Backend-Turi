@@ -5,30 +5,73 @@ const verifyToken  = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 
 //clase que maneja los Lugares asignados al viaje
+
 class ViajeLugarController {
 //se crea viaje vacio
-    static traerItinerario(token,idViaje,callback){
-      const result = verifyToken(token);
-      if (!result.error) {
-        const idUsuario = result.decoded.id;
-        const sqlQuery = `SELECT a.*, b.*, c.nombre, c.foto
-        FROM Viaje a
-        INNER JOIN ViajeLugar b ON a.id = b.idViaje
-        INNER JOIN Lugar c ON b.idLugar = c.id
-        WHERE a.idUsuario = ${idUsuario} AND b.idViaje = ${idViaje};`;
-        executeSqlQueryGet(sqlQuery,(err,resultados)=>{
-          if(err){
-            callback(err);
-          }else{
+  static viajeVacio(token, idViaje, callback) {
+    const result = verifyToken(token);
+    if (!result.error) {
+      const idUsuario = result.decoded.id;
+      const sqlQuery = `SELECT a.idViaje
+        FROM ViajeLugar a
+        WHERE a.idViaje = ${idViaje};`;
+      executeSqlQueryGet(sqlQuery, (err, resultados) => {
+        if (err) {
+          callback(err, false);
+        } else {
+          if (resultados && resultados.length > 0) {
             callback(null, resultados);
+          } else {
+            callback(null, false);
           }
-        })
-      }else{
-        console.log('Token no valido');
-      }
-
+        }
+      });
+    } else {
+      console.log('Token no válido');
     }
+  }
 
+  static traerItinerario(token, idViaje, callback) {
+    const result = verifyToken(token);
+    if (!result.error) {
+      this.viajeVacio(token, idViaje, (err, vacio) => {
+        if (err) {
+          callback(err);
+        } else {
+          if (vacio != false) {
+            const idUsuario = result.decoded.id;
+            const sqlQuery = `SELECT a.*, b.idViaje, b.idLugar, b.id as idViajeLugar, b.numDia, c.nombre, c.foto
+              FROM Viaje a
+              INNER JOIN ViajeLugar b ON a.id = b.idViaje
+              INNER JOIN Lugar c ON b.idLugar = c.id
+              WHERE a.idUsuario = ${idUsuario} AND b.idViaje = ${idViaje};`;
+  
+            executeSqlQueryGet(sqlQuery, (err, resultados) => {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, resultados);
+              }
+            });
+          } else {
+            const sqlQuery = `SELECT b.cantDias FROM Viaje b
+              WHERE b.id = ${idViaje};`;
+  
+            executeSqlQueryGet(sqlQuery, (err, resultados) => {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, resultados);
+              }
+            });
+          }
+        }
+      });
+    } else {
+      callback('Token no válido');
+    }
+  }
+  
     static crearRegistrosViajeLugarDos(data, callback) {
       const idViaje = data.data.idViaje;
     
