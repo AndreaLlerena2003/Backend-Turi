@@ -33,10 +33,10 @@ router
   
     function formatResponse(resultados) {
       if (!resultados || resultados.length === 0) {
-        return { data: { idViaje: '', cantDias: '', dias: [] } };
+        return { data: { idViaje: '', cantDias: '', nombreViaje: '',dias: [] } };
       }
   
-      const data = { idViaje: resultados[0].idViaje || '', cantDias: resultados[0].cantDias || '', dias: [] };
+      const data = { idViaje: resultados[0].idViaje || '', cantDias: resultados[0].cantDias || '', nombreViaje: resultados[0].nombreViaje  || '',dias: [] };
   
       resultados.forEach((resultado) => {
         const { numDia, idLugar, nombre, foto } = resultado;
