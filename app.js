@@ -601,7 +601,7 @@ app.get('/lugares/categorias', (req, res) => {
 
 //endpoint para crear reseña 
 // Ruta para registrar un usuario
-app.post('/resena/crearResena', (req, res) => {
+/*app.post('/resena/crearResena', (req, res) => {
   const reseña = new Reseña(
     req.body.fechaCreacion,
     req.body.comentario,
@@ -644,7 +644,7 @@ app.get('/resena/obtenerResenasPorLugar', (req, res) => {
       }
     }
   });
-});
+});*/
 
 //traer todos los viajes de un usuario
 app.get('/viaje/obtenerViajesDeUsuario', (req, res) => {
@@ -670,7 +670,7 @@ app.get('/viaje/obtenerViajesDeUsuario', (req, res) => {
   });
 });
 //endpoint para eliminar una reseña
-app.delete('/resena/eliminarResenasPorLugar', (req, res) => {
+/*app.delete('/resena/eliminarResenasPorLugar', (req, res) => {
   const id = req.query.id;
 
   if (!id) {
@@ -706,7 +706,7 @@ app.put('/resena/editarResena', (req, res) => {
       res.status(200).json(resultado);
     }
   });
-});
+});*/
 //endpoint para crear reseña 
 // Ruta para registrar un usuario
 app.post('/favorito/agregarFavorito', (req, res) => {
