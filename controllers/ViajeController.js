@@ -4,7 +4,7 @@ class ViajeController {
 //registro del viaje
     
   static registrarViaje(viaje, callback) {
-    const insertQuery = `INSERT INTO Viaje (cantDias, idUsuario) OUTPUT INSERTED.id VALUES ('${viaje.cantDias}', '${viaje.idUsuario}');`
+    const insertQuery = `INSERT INTO Viaje (cantDias, idUsuario, nombre) OUTPUT INSERTED.id VALUES ('${viaje.cantDias}', '${viaje.idUsuario}','${viaje.nombre}');`
 
     executeSqlQueryWithGet(insertQuery, (err, result) => {
       if (err) {
