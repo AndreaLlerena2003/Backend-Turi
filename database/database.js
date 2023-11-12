@@ -20,6 +20,22 @@ const config = {
 };
 
 
+/*const config = {
+  server: 'LAGORDAQUEBRISH',
+  authentication: {
+    type: 'default',
+    options: {
+      userName: 'Alfredo',
+      password: 'P4cH0nC170',
+    },
+  },
+  options: {
+    port: 1433,
+    database: 'Turi',
+    trustServerCertificate: true,
+  },
+};*/
+
 const connection = new Connection(config);
 connection.connect();
 

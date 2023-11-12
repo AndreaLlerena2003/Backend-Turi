@@ -1,4 +1,10 @@
 const { executeSqlQuery, executeSqlQueryGet,executeSqlQueryWithGet } = require('../database/database');
+const jwt = require('jsonwebtoken');//para manejo de tokens de inicio de sesion
+//manejo de aleteoridad de clave secreta de tokens
+//clase que controla al usuario 
+const config = require('../database/config');
+const secretKey= config.secretKey;
+const verifyToken  = require('../middleware/auth');
 //clase que se encarga de controllar el VIaje
 class ViajeController {
 //registro del viaje
@@ -39,6 +45,27 @@ class ViajeController {
     });
   }
 
+  static obtenerViajesDeUsuario(token, callback) {
+    const result = verifyToken(token);
+  
+    if (!result.error) {
+      const idUsuario = result.decoded.id;
+      const sqlQuery = `SELECT id, cantDias FROM Viaje WHERE idUsuario = '${idUsuario}'`;
+  
+      executeSqlQueryGet(sqlQuery, (err, resultados) => {
+        if (err) {
+          console.error('Error al obtener los viajes del usuario:', err.message);
+          return callback({ error: err.message });
+        }
+  
+        console.log('Viajes obtenidos con éxito.');
+        callback(null, resultados);
+      });
+    } else {
+      console.log('Token no válido');
+      callback({ error: 'Token no válido' });
+    }
+  }
 }
 
 module.exports = ViajeController;

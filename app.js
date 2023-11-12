@@ -605,20 +605,108 @@ app.post('/resena/crearResena', (req, res) => {
   const reseña = new Reseña(
     req.body.fechaCreacion,
     req.body.comentario,
-    req.body.puntaje
+    req.body.puntaje,
+    req.body.idUsuario,
+    req.body.idLugar
   );
 
-  ReseñaController.registrarReseña(reseña, (err, rowCount) => {
+
+  ReseñaController.registrarReseña(reseña, (err, nuevoIdReseña) => { // Elimina las llaves adicionales en la llamada a registrarViaje
     if (err) {
       console.error('Error al registrar reseña:', err.message);
-      res.status(500).send('Error al registrar reseña.');
+      res.status(500).json({ error: 'Error al registrar reseña.' });
     } else {
-      console.log('Reseña registrado con éxito.');
-      res.status(200).send('Reseñan registrado con éxito.');
+      console.log('ce logro gentita:', nuevoIdReseña);
+      res.status(200).json({ nuevoIdReseña });
     }
   });
 });
 
+//endpoint para obtener todas las reseñas de un lugar 
+app.get('/resena/obtenerResenasPorLugar', (req, res) => {
+  const idLugar = req.query.idLugar;
+
+  if (!idLugar) {
+    return res.status(400).json({ error: 'El parámetro idLugar es requerido.' });
+  }
+
+  ReseñaController.obtenerReseñasPorLugar(idLugar, (err, reseñas) => {
+    if (err) {
+      console.error('Error al obtener las reseñas:', err.message);
+      res.status(500).json({ error: 'Error al obtener las reseñas.' });
+    } else {
+      if (reseñas && reseñas.length > 0) {
+        console.log('Se encontraron reseñas:', reseñas);
+        res.status(200).json(reseñas);
+      } else {
+        console.log('No se encontraron reseñas para el lugar con ID:', idLugar);
+        res.status(404).json({ message: 'No se encontraron reseñas para el lugar con ID proporcionado.' });
+      }
+    }
+  });
+});
+
+//traer todos los viajes de un usuario
+app.get('/viaje/obtenerViajesDeUsuario', (req, res) => {
+  const idUsuario = req.query.idUsuario;
+
+  if (!idUsuario) {
+    return res.status(400).json({ error: 'El parámetro idUsuario es requerido.' });
+  }
+
+  ViajeController.obtenerViajesDeUsuario(idUsuario, (err, viajes) => {
+    if (err) {
+      console.error('Error al obtener los viajes del usuario:', err.message);
+      res.status(500).json({ error: 'Error al obtener los viajes del usuario.' });
+    } else {
+      if (viajes && viajes.length > 0) {
+        console.log('Viajes obtenidos:', viajes);
+        res.status(200).json(viajes);
+      } else {
+        console.log('No se encontraron viajes para el usuario.');
+        res.status(404).json({ message: 'No se encontraron viajes para el usuario.' });
+      }
+    }
+  });
+});
+//endpoint para eliminar una reseña
+app.delete('/resena/eliminarResenasPorLugar', (req, res) => {
+  const id = req.query.id;
+
+  if (!id) {
+    return res.status(400).json({ error: 'El parámetro id es requerido.' });
+  }
+
+  ReseñaController.eliminarReseña(id, (err, resultado) => {
+    if (err) {
+      console.error('Error al eliminar reseñas:', err.message);
+      res.status(500).json({ error: 'Error al eliminar reseñas.' });
+    } else {
+      console.log(resultado.mensaje);
+      res.status(200).json(resultado);
+    }
+  });
+});
+
+app.put('/resena/editarResena', (req, res) => {
+  const idReseña = req.body.idReseña;
+  const nuevoComentario = req.body.nuevoComentario;
+  const nuevoPuntaje = req.body.nuevoPuntaje;
+
+  if (!idReseña || !nuevoComentario || !nuevoPuntaje) {
+    return res.status(400).json({ error: 'Los parámetros idReseña, nuevoComentario y nuevoPuntaje son requeridos.' });
+  }
+
+  ReseñaController.editarReseña(idReseña, nuevoComentario, nuevoPuntaje, (err, resultado) => {
+    if (err) {
+      console.error('Error al editar la reseña:', err.message);
+      res.status(500).json({ error: 'Error al editar la reseña.' });
+    } else {
+      console.log('Reseña editada con éxito.');
+      res.status(200).json(resultado);
+    }
+  });
+});
 //endpoint para crear reseña 
 // Ruta para registrar un usuario
 app.post('/favorito/agregarFavorito', (req, res) => {
