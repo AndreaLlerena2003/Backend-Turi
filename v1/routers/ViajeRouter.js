@@ -9,7 +9,7 @@ const verifyToken  = require('../../middleware/auth');
 router
 //crear intinerario funciones
     .post('/registro', (req, res) => {
-        const token = req.query.token;
+        const token = req.body.token;
         const result = verifyToken(token);
         console.log(result);
         if (result.error) {
@@ -17,9 +17,9 @@ router
           return res.status(401).json('Token no válido'); 
         }
         const idUsuario = result.decoded.id;
-        const nombre = req.query.nombre;
+        const nombre = req.body.nombre;
         const viaje = new Viaje(
-          req.query.cantDias,
+          req.body.cantDias,
           idUsuario,
           nombre
         );
