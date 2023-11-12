@@ -14,7 +14,7 @@ router
         console.log(result);
         if (result.error) {
           console.error('Error al verificar el token:', result.error.message);
-          return res.status(401).json('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
+          return res.status(401).json('Token no válido'); 
         }
         const idUsuario = result.decoded.id;
         const nombre = req.query.nombre;
@@ -48,6 +48,27 @@ router
             console.log('ce logro gentita:', nuevoIdViaje);
             res.status(200).json({ nuevoIdViaje });
           }
+        });
+      })
+
+    .get('/traerViajes', (req, res) => {
+        const token = req.query.token;
+        const result = verifyToken(token);
+        if (result.error) {
+          console.error('Error al verificar el token:', result.error.message);
+          return res.status(401).json('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
+        }
+        const idUsuario = result.decoded.id;
+        ViajeController.obtenerViajes(idUsuario, (error, viajes) => {
+          if (error) {
+            return res.status(500).json({ error: 'Hubo un error al obtener los viajes.' });
+          }
+      
+          if (!viajes) {
+            return res.status(404).json({ message: 'No se encontraron viajes para este usuario.' });
+          }
+      
+          res.status(200).json({ viajes });
         });
       });
 
