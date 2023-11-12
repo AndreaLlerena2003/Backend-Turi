@@ -72,50 +72,22 @@ class ViajeLugarController {
     }
   }
   
-    static crearRegistrosViajeLugarDos(data, callback) {
-      const idViaje = data.data.idViaje;
-    
-      console.log(idViaje);
-      const diasArray = data.data.dias;
-      const insertQueries = [];
-    
-      for (const dia of diasArray) {
-        const numDia = dia.numDia;
-        const momentos = dia.momentos;
-    
-        for (const momento of momentos) {
-          const idTiempoDia = momento.idTiempoDia;
-          const lugares = momento.lugares;
-    
-          for (const lugar of lugares) {
-            const idLugar = lugar.idLugar;
-            insertQueries.push(
-              `INSERT INTO ViajeLugar (idViaje, idLugar, idTiempoDia, numDia) VALUES (${idViaje}, ${idLugar}, ${idTiempoDia}, ${numDia});`
-            );
-          }
-        }
-      }
-    
-      async function executeQueries() {
-        for (const query of insertQueries) {
-          await new Promise((resolve) => {
-            executeSqlQuery(query, (result) => {
-              if (result && result.error) {
-                callback(result);
-              } else {
-                resolve();
-              }
-            });
-          });
-        }
-        callback({ message: 'Registros en ViajeLugar creados con éxito.' });
-      }
-    
-      executeQueries();
-    }
-    
+  static crearRegistrosViajeLugarDos(data, callback) {
+    const idViaje = data.data.idViaje;
+    const numDia = data.data.numDia;
+    const idLugar = data.data.idLugar;
+    const sqlQuery = `INSERT INTO ViajeLugar (idViaje, numDia, idLugar) VALUES (${idViaje}, ${numDia}, ${idLugar})`;
   
-
+    executeSqlQuery(sqlQuery, (err, result) => {
+      if (err) {
+        console.error('Error al crear registros de lugar en el viaje:', err.message);
+        return callback(err);
+      }
+  
+      console.log('Registros de lugar en el viaje creados con éxito.');
+      callback(null, 'Registros creados exitosamente');
+    });
+  }
     
     //se setea id lugar
     static setIdLugar(idLugar,idViaje,idTiempoDia, numDia, callback){

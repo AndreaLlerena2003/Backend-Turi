@@ -4,22 +4,18 @@ const ViajeLugar = require('../../clases/ViajeLugar');
 const router = express.Router();
 
 router
-//endpoint para creacion de viaje agregar Lugar al viaje
+
    
-    .post('/registro', (req, res) => {
-      
-      const data = req.body;
-  
-      ViajeLugarController.crearRegistrosViajeLugarDos(data, (result) => {
-          if (result instanceof Error) {
-              console.error('Error al agregar registros de ViajeLugar:', result.message);
-              res.status(500).json({ error: 'Error al agregar registros de ViajeLugar.' });
-          } else {
-              console.log('Registros de ViajeLugar agregados con éxito.');
-              res.status(200).json({ message: 'Registros de ViajeLugar agregados con éxito.' });
-          }
-      });
-  })
+.post('/registro', (req, res) => {
+  const data = req.body; 
+  ViajeLugarController.crearRegistrosViajeLugarDos(data, (error, mensaje) => {
+    if (error) {
+      return res.status(500).json({ error: 'Hubo un error al crear los registros de lugar en el viaje.' });
+    }
+
+    res.status(200).json({ message: mensaje });
+  });
+})
 
   .get('/traerItinerarioPorId', (req, res) => {
     const token = req.query.token;
