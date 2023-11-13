@@ -1,4 +1,7 @@
 const { executeSqlQuery, executeSqlQueryGet,executeSqlQueryWithGet } = require('../database/database');
+const jwt = require('jsonwebtoken');//para manejo de tokens de inicio de sesion
+//manejo de aleteoridad de clave secreta de tokens
+//clase que controla al usuario 
 const config = require('../database/config');
 const secretKey= config.secretKey;
 const verifyToken  = require('../middleware/auth');
@@ -38,18 +41,23 @@ class ReseñaController {
     }
 
     static obtenerReseñasPorLugar(idLugar, callback) {
-      const sqlQuery = `SELECT * FROM RESEÑA WHERE idLugar = '${idLugar}'`;
-    
+      const sqlQuery = `
+          SELECT RESEÑA.*, USUARIO.*
+          FROM RESEÑA
+          INNER JOIN USUARIO ON RESEÑA.idUsuario = USUARIO.id
+          WHERE RESEÑA.idLugar = '${idLugar}'
+      `;
+  
       executeSqlQueryGet(sqlQuery, (err, resultados) => {
-        if (err) {
-          console.error('Error al obtener las reseñas:', err.message);
-          return callback({ error: err.message });
-        }
-    
-        console.log('Reseñas obtenidas con éxito.');
-        callback(null, resultados);
+          if (err) {
+              console.error('Error al obtener las reseñas:', err.message);
+              return callback({ error: err.message });
+          }
+  
+          console.log('Reseñas obtenidas con éxito.');
+          callback(null, resultados);
       });
-    }
+  }  
 
     static editarReseña(idReseña, nuevoComentario, nuevoPuntaje, callback) {
       const sqlQuery = `UPDATE Reseña SET 

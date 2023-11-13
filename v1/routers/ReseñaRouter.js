@@ -2,27 +2,40 @@ const express = require('express');
 const ReseñaController = require('../../controllers/ReseñaController');
 const Reseña = require('../../clases/Reseña');
 const router = express.Router();
+const config = require('../../database/config');
+const secretKey= config.secretKey;
+const verifyToken  = require('../../middleware/auth');
 
-router
-    .post('/crearResena', (req, res) => {
-    const reseña = {
+router.post('/crearResena', (req, res) => {
+  const token = req.body.token;  // Asegúrate de enviar el token en el cuerpo de la solicitud
+  const result = verifyToken(token);
+
+  if (result.error) {
+      console.error('Error al verificar el token:', result.error.message);
+      return res.status(401).json('Token no válido');
+  }
+
+  const idUsuario = result.decoded.id;
+
+  const reseña = {
       fechaCreacion: req.body.fechaCreacion,
       comentario: req.body.comentario,
       puntaje: req.body.puntaje,
-      idUsuario: req.body.idUsuario,
+      idUsuario: idUsuario,  // Utiliza el id de usuario obtenido del token
       idLugar: req.body.idLugar
-    };
-  
-    ReseñaController.registrarReseña(reseña, (err, nuevoIdReseña) => {
+  };
+
+  ReseñaController.registrarReseña(reseña, (err, nuevoIdReseña) => {
       if (err) {
-        console.error('Error al registrar reseña:', err.message);
-        res.status(500).json({ error: 'Error al registrar reseña.' });
+          console.error('Error al registrar reseña:', err.message);
+          res.status(500).json({ error: 'Error al registrar reseña.' });
       } else {
-        console.log('Reseña registrada con éxito.');
-        res.status(201).json({ nuevoIdReseña });
+          console.log('Reseña registrada con éxito.');
+          res.status(201).json({ nuevoIdReseña });
       }
-    });
-  })
+  });
+})
+
   
   // Obtener todas las reseñas de un lugar
     .get('/obtenerResenasPorLugar', (req, res) => {
