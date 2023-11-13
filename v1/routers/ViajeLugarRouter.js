@@ -17,42 +17,52 @@ router
   });
 })
 
-  .get('/traerItinerarioPorId', (req, res) => {
-    const token = req.query.token;
-    const idViaje = req.query.idViaje;
-  
-    ViajeLugarController.traerItinerario(token, idViaje, (err, resultados) => {
-      if (err) {
-        console.error('Error al encontrar itinerario', err.message);
-        res.status(500).json('Error al buscar el itinerario.');
-      } else {
-        const formattedData = formatResponse(resultados);
-        res.status(200).json(formattedData);
-      }
-    });
-  
-    function formatResponse(resultados) {
-      if (!resultados || resultados.length === 0) {
-        return { data: { idViaje: '', cantDias: '', nombreViaje: '',dias: [] } };
-      }
-  
-      const data = { idViaje: resultados[0].idViaje || '', cantDias: resultados[0].cantDias || '', nombreViaje: resultados[0].nombreViaje  || '',dias: [] };
-  
+.get('/traerItinerarioPorId', (req, res) => {
+  const token = req.query.token;
+  const idViaje = req.query.idViaje;
+
+  ViajeLugarController.traerItinerario(token, idViaje, (err, resultados) => {
+    if (err) {
+      console.error('Error al encontrar itinerario', err.message);
+      res.status(500).json('Error al buscar el itinerario.');
+    } else {
+      const formattedData = formatResponse(resultados);
+      res.status(200).json(formattedData);
+    }
+  });
+
+  function formatResponse(resultados) {
+    const itinerarioEstructurado = {
+      data: { idViaje: '', cantDias: '', nombreViaje: '', dias: [] }
+    };
+
+    if (resultados && resultados.length > 0) {
+      itinerarioEstructurado.data.idViaje = resultados[0].idViaje || '';
+      itinerarioEstructurado.data.cantDias = resultados[0].cantDias || '';
+      itinerarioEstructurado.data.nombreViaje = resultados[0].nombreViaje || '';
+    }
+
+    for (let i = 1; i <= itinerarioEstructurado.data.cantDias; i++) {
+      itinerarioEstructurado.data.dias.push({ numDia: i, lugares: [] });
+    }
+
+    if (resultados && resultados.length > 0) {
       resultados.forEach((resultado) => {
         const { numDia, idLugar, nombre, foto } = resultado;
         const lugar = { idLugar, nombre, foto };
-  
-        const dia = data.dias.find((d) => d.numDia === numDia);
+
+        const dia = itinerarioEstructurado.data.dias.find((d) => d.numDia === numDia);
         if (dia) {
           dia.lugares.push(lugar);
-        } else {
-          data.dias.push({ numDia, lugares: [lugar] });
         }
       });
-  
-      return { data };
     }
-  })
+
+    return itinerarioEstructurado;
+  }
+})
+
+ 
     .post('/setIdLugar', (req, res) => {
         const { idLugar, idViaje, idTiempoDia, numDia } = req.body;
       
