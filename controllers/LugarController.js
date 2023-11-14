@@ -2,27 +2,25 @@ const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 
 class LugarController {
 //metodo para traer lugar recomendado segun id
-  static getBanner(){
-    const sqlQuery = `SELECT * FROM Lugar`;
-    executeSqlQueryGet(sqlQuery,(err,resultados)=> {
-      if(err){
-        callback(err);
-      }
-      else{
-        if(resultados.length == 0){
-          callback(null,[]);
-        }else{
-          const lugarC = [];
-          for(let i = 0;i<resultados.length;i++){
-            const l = resultados[i];
-            lugarC.push(l);
-
-          }
-          callback(null, lugarC);
+static getBanner(callback) {
+  const sqlQuery = `SELECT TOP 5 a.id, a.foto, a.nombre, a.puntaje FROM Lugar a;`;
+  executeSqlQueryGet(sqlQuery, (err, resultados) => {
+    if (err) {
+      callback(err);
+    } else {
+      if (resultados.length === 0) {
+        callback(null, []);
+      } else {
+        const lugarC = [];
+        for (let i = 0; i < resultados.length; i++) {
+          const l = resultados[i];
+          lugarC.push(l);
         }
+        callback(null, lugarC);
       }
-    })
-  }
+    }
+  });
+}
   static traerLugarSegunLugarRecomendadoId(id, callback) {
     const sqlQuery = `SELECT * FROM Lugar WHERE Lugar.idTipoLugar = '${id}'`;
 

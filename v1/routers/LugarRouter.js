@@ -22,6 +22,22 @@ router
         }
         });
     })
+    .get('/traerBanner',(req,res)=>{
+      LugarController.getBanner((err,lugarC)=>{
+        if(err){
+          console.error('Error al encontrar lugares de banner:',err.message);
+          res.status(500).json({error:'Error al obtener lugares del banner'+err.message});
+        }else{
+          if(lugarC && lugarC.length > 0){
+            console.log('Se encontraron lugares del banner',lugarC);
+            res.status(200).json(lugarC);
+          }else{
+            console.log('No se encontraron lugares para el banner');
+            res.status(404).json({message: 'No se encontraron lugares para el banner'});
+          }
+        }
+      })
+    })
     //traer los top 10 lugares
     .get('/getTopTen',(req,res) => {
         LugarController.traerTop10Lugares((err,lugarC)=>{

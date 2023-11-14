@@ -3,7 +3,7 @@ const { Connection, Request } = require('tedious');
 // configuramos la conexión a la base de datos
 
 
-/*const config = {
+const config = {
   server: 'localhost',
   authentication: {
     type: 'default',
@@ -17,10 +17,10 @@ const { Connection, Request } = require('tedious');
     database: 'Turi',
     trustServerCertificate: true,
   },
-};*/
+};
 
 
-const config = {
+/*const config = {
   server: 'LAGORDAQUEBRISH',
   authentication: {
     type: 'default',
@@ -34,7 +34,7 @@ const config = {
     database: 'Turi',
     trustServerCertificate: true,
   },
-};
+};*/
 
 const connection = new Connection(config);
 connection.connect();
