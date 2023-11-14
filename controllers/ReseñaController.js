@@ -42,7 +42,7 @@ class ReseñaController {
 
     static obtenerReseñasPorLugar(idLugar, callback) {
       const sqlQuery = `
-          SELECT RESEÑA.*, USUARIO.*
+          SELECT RESEÑA.id as idReseña, RESEÑA.idLugar, RESEÑA.comentario, RESEÑA.fechaCreacion, RESEÑA.puntaje, USUARIO.*
           FROM RESEÑA
           INNER JOIN USUARIO ON RESEÑA.idUsuario = USUARIO.id
           WHERE RESEÑA.idLugar = '${idLugar}'
