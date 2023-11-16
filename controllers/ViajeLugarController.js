@@ -40,7 +40,7 @@ class ViajeLugarController {
         } else {
           if (vacio != false) {
             const idUsuario = result.decoded.id;
-            const sqlQuery = `SELECT a.cantDias,a.idUsuario,a.nombre as nombreViaje, b.idViaje, b.idLugar, b.id as idViajeLugar, b.numDia, c.nombre, c.foto
+            const sqlQuery = `SELECT a.cantDias,a.idUsuario,a.nombre as nombreViaje, b.idViaje, b.idLugar, b.id as idViajeLugar, b.numDia, c.nombre, c.foto, c.descripcion
               FROM Viaje a
               INNER JOIN ViajeLugar b ON a.id = b.idViaje
               INNER JOIN Lugar c ON b.idLugar = c.id

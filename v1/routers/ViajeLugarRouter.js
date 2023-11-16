@@ -48,8 +48,8 @@ router
 
     if (resultados && resultados.length > 0) {
       resultados.forEach((resultado) => {
-        const { numDia, idLugar, nombre, foto } = resultado;
-        const lugar = { idLugar, nombre, foto };
+        const { numDia, idLugar, nombre, foto, descripcion } = resultado;
+        const lugar = { idLugar, nombre, foto, descripcion };
 
         const dia = itinerarioEstructurado.data.dias.find((d) => d.numDia === numDia);
         if (dia) {

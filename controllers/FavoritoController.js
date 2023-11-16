@@ -74,7 +74,7 @@ class FavoritoController {
     const result = verifyToken(token);
     if(!result.error){
     const id = result.decoded.id;
-    const sqlQuery = `SELECT Favorito.idLugar, Lugar.nombre, Lugar.foto FROM Lugar
+    const sqlQuery = `SELECT Favorito.idLugar, Lugar.nombre, Lugar.foto, Lugar.descripcion FROM Lugar
       INNER JOIN Favorito ON Lugar.id = Favorito.idLugar
       INNER JOIN Usuario ON Favorito.idUsuario = Usuario.id
       WHERE Usuario.id = ${id};`
