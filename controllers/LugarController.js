@@ -3,7 +3,7 @@ const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 class LugarController {
 //metodo para traer lugar recomendado segun id
 static getBanner(callback) {
-  const sqlQuery = `SELECT TOP 5 a.id, a.foto, a.nombre, a.puntaje FROM Lugar a;`;
+  const sqlQuery = `SELECT TOP 5 a.id, a.foto, a.nombre, a.puntaje, a.fotobanner FROM Lugar a;`;
   executeSqlQueryGet(sqlQuery, (err, resultados) => {
     if (err) {
       callback(err);

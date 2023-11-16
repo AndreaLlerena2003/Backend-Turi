@@ -51,7 +51,7 @@ router
         });
       })
 
-    .get('/traerViajes', (req, res) => {
+      .get('/traerViajes', (req, res) => {
         const token = req.query.token;
         const result = verifyToken(token);
         if (result.error) {
@@ -59,7 +59,7 @@ router
           return res.status(401).json('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
         }
         const idUsuario = result.decoded.id;
-        ViajeController.obtenerViajes(idUsuario, (error, viajes) => {
+        ViajeController.obtenerViajesDeUsuario(idUsuario, (error, viajes) => {
           if (error) {
             return res.status(500).json({ error: 'Hubo un error al obtener los viajes.' });
           }

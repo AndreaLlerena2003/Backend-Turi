@@ -43,26 +43,18 @@ static obtenerViajes(idUsuario, callback) {
       return callback(null, resultados);
     }});}
 
-  static obtenerViajesDeUsuario(token, callback) {
-    const result = verifyToken(token);
-  
-    if (!result.error) {
-      const idUsuario = result.decoded.id;
-      const sqlQuery = `SELECT id, cantDias FROM Viaje WHERE idUsuario = '${idUsuario}'`;
+    static obtenerViajesDeUsuario(idUsuario, callback) {
+      const sqlQuery = `SELECT id, cantDias, nombre FROM Viaje WHERE idUsuario = '${idUsuario}'`;
   
       executeSqlQueryGet(sqlQuery, (err, resultados) => {
-        if (err) {
-          console.error('Error al obtener los viajes del usuario:', err.message);
-          return callback({ error: err.message });
-        }
+          if (err) {
+              console.error('Error al obtener los viajes del usuario:', err.message);
+              return callback({ error: err.message });
+          }
   
-        console.log('Viajes obtenidos con éxito.');
-        callback(null, resultados);
+          console.log('Viajes obtenidos con éxito.');
+          callback(null, resultados);
       });
-    } else {
-      console.log('Token no válido');
-      callback({ error: 'Token no válido' });
-    }
   }
 }
 

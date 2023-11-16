@@ -18,6 +18,7 @@ class Lugar {
       this.distrito = null;
       this.tipoLugar = null;
       this.categoria = []; 
+      this.fotobanner = null;
     }
 
 }
