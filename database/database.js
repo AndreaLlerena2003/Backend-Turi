@@ -3,13 +3,14 @@ const { Connection, Request } = require('tedious');
 // configuramos la conexión a la base de datos
 
 
+
 const config = {
-  server: 'MSI',
+  server: 'localhost',
   authentication: {
     type: 'default',
     options: {
-      userName: 'alejandra',
-      password: '12345',
+      userName: 'andrea',
+      password: 'bella12345',
     },
   },
   options: {
