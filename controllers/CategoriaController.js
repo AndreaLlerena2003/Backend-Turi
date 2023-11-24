@@ -15,7 +15,11 @@ class CategoriaController {
                     for (let i = 0; i < resultados.length; i++) {
 
                         const cat = resultados[i];
-                        categorias.push(cat); //
+                        const data = {
+                            "id":cat.id,
+                            "nombre":cat.categoria
+                        }
+                        categorias.push(data); //
                     }
                     callback(null, categorias);
                 }
