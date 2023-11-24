@@ -9,7 +9,7 @@ const v1ViajeRouter = require("./v1/routers/ViajeRouter");
 const v1ViajeLugarRouter = require("./v1/routers/ViajeLugarRouter");
 const v1LugarRouter = require("./v1/routers/LugarRouter");
 const v1ReseñaRouter = require("./v1/routers/ReseñaRouter");
-
+const v1DistritoRouter = require("./v1/routers/DistritoRouter");
 
 
 
@@ -33,6 +33,8 @@ app.use("/api/v1/ViajeRouter",v1ViajeRouter);
 app.use("/api/v1/ViajeLugarRouter",v1ViajeLugarRouter);
 app.use("/api/v1/LugarRouter",v1LugarRouter);
 app.use("/api/v1/ResenaRouter",v1ReseñaRouter);
+app.use("/api/v1/DistritoRouter",v1DistritoRouter);
+
 
 
 
