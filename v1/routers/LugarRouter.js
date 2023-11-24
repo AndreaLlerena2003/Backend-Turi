@@ -5,6 +5,26 @@ const router = express.Router();
 
 router
  //devolver lugar segun id de lugar recomendado
+
+
+ .get('/getFiltradoBusqueda', (req, res) => {
+  const { idCategoria, idLugarRecomendado, idDistrito } = req.query;
+
+  // Verificar si se proporcionaron los parámetros requeridos
+  if (!idCategoria && !idLugarRecomendado && !idDistrito) {
+      return res.status(400).json({ error: 'Se deben proporcionar al menos uno de los parámetros: idCategoria, idLugarRecomendado o idDistrito.' });
+  }
+
+  // Llamar a la función para traer lugares por filtrado
+  LugarController.traerLugaresPorFiltrado(idCategoria, idLugarRecomendado, idDistrito, (err, lugares) => {
+      if (err) {
+          return res.status(500).json({ error: 'Error al obtener lugares.' });
+      }
+
+      // Devolver los lugares encontrados
+      res.json({ lugares });
+  });
+})
     .get('/getLugarByIdLugarRec', (req, res) => {
         const id = req.query.id;
         LugarController.traerLugarSegunLugarRecomendadoId(id, (err, lugarC) => {

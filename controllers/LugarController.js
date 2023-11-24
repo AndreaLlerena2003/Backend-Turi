@@ -2,6 +2,52 @@ const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 
 class LugarController {
 //metodo para traer lugar recomendado segun id
+static traerLugaresPorFiltrado(idCategoria, idLugarRecomendado, idDistrito, callback) {
+  let sqlQuery = `SELECT * FROM Lugar
+                  INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
+                  INNER JOIN Categoria ON Categoria.id = LugarCategoria.idCategoria
+                  INNER JOIN LugarRecomendado ON LugarRecomendado.id = Lugar.idTipoLugar
+                  INNER JOIN Distrito ON Distrito.id = Lugar.idDistrito
+                  WHERE 1 = 1`;
+
+  if (idCategoria) {
+      sqlQuery += ` AND Categoria.id = ${idCategoria}`;
+  }
+
+  if (idDistrito) {
+      sqlQuery += ` AND Distrito.id = ${idDistrito}`;
+  }
+
+  if (idLugarRecomendado) {
+      sqlQuery += ` AND LugarRecomendado.id = ${idLugarRecomendado}`;
+  }
+
+  if (!idCategoria && !idLugarRecomendado && !idDistrito) {
+      callback(new Error('No se proporcionaron criterios de filtrado válidos.'));
+      return;
+  }
+
+  console.log('SQL Query:', sqlQuery);
+
+  executeSqlQueryGet(sqlQuery, (err,resultados)=>{
+    if(err){
+      callback(err);
+    }else{
+      if(resultados.length == 0){
+        callback(null, []);
+      }else{
+        const lugaresDeCategoria = [];
+        for (let i = 0; i < resultados.length; i++) {
+          const luCat = resultados[i];
+          lugaresDeCategoria.push(luCat); 
+      }
+      callback(null, lugaresDeCategoria);
+      }
+    }
+  });
+}
+
+
 static getBanner(callback) {
   const sqlQuery = `SELECT TOP 5 a.id, a.foto, a.nombre, a.puntaje, a.fotobanner FROM Lugar a;`;
   executeSqlQueryGet(sqlQuery, (err, resultados) => {
