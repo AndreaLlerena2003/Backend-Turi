@@ -3,7 +3,7 @@ const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 class LugarController {
 
 static traerLugaresSegunNombre(nombre, callback) {
-  const sqlQuery = `SELECT id, nombre FROM Lugar A WHERE A.nombre = '${nombre}'`;
+  const sqlQuery = `SELECT id, nombre FROM Lugar A WHERE A.nombre LIKE '%${nombre}%'`;
   executeSqlQueryGet(sqlQuery, (err, resultados) => {
     if (err) {
       callback(err);
