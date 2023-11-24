@@ -1,7 +1,26 @@
 const { executeSqlQuery, executeSqlQueryGet } = require('../database/database');
 
 class LugarController {
-//metodo para traer lugar recomendado segun id
+
+static traerLugaresSegunNombre(nombre, callback) {
+  const sqlQuery = `SELECT id, nombre FROM Lugar A WHERE A.nombre = '${nombre}'`;
+  executeSqlQueryGet(sqlQuery, (err, resultados) => {
+    if (err) {
+      callback(err);
+    } else {
+      if (resultados.length === 0) {
+        callback(null, []);
+      } else {
+        const lugarC = [];
+          for (let i = 0; i < resultados.length; i++) {
+            const l = resultados[i];
+            lugarC.push(l);
+          }
+          callback(null, lugarC);
+      }
+    }
+  });
+}
 static traerLugaresPorFiltrado(idCategoria, idLugarRecomendado, idDistrito, callback) {
   let sqlQuery = `SELECT * FROM Lugar
                   INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
@@ -88,6 +107,8 @@ static getBanner(callback) {
       }
     });
   }
+
+  
 
   //metodo para traer top5 de lugares
 

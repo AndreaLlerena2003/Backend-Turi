@@ -77,9 +77,25 @@ router
         }
         })
     })
-    
-    
-    
+
+    .get('/getBarraBusqueda', (req, res) => {
+      const nombre = req.query.nombre;
+      LugarController.traerLugaresSegunNombre(nombre, (err, lugares) => {
+        if (err) {
+          console.error('Error en la búsqueda');
+          res.status(500).json({ error: 'Error: ' + err.message });
+        } else {
+          if (lugares && lugares.length > 0) {
+            console.log('Se encontraron lugares:', lugares);
+            res.status(200).json(lugares);
+          } else {
+            console.log('No se encontraron lugares');
+            res.status(400).json({ message: 'No se encontraron coincidencias' });
+          }
+        }
+      });
+    })
+  
     //devolver lugar segun id de lugar recomendado
     .get('/getLugarById', (req, res) => {
         const id = req.query.id;
