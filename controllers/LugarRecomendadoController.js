@@ -14,7 +14,7 @@ class LugarRecomendadoController {
                     const lugarRecomendados = [];
                     for (let i = 0; i < resultados.length; i++) {
 
-                        const lug = resultados[i].lugar;
+                        const lug = resultados[i];
                         lugarRecomendados.push(lug); //
                     }
                     callback(null, lugarRecomendados);
