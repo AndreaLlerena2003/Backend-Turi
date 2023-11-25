@@ -215,18 +215,21 @@ static getBanner(callback) {
   //metodo para traer todos los lugares
 
   static traerTodosLosLugares(callback) {
-    const sqlQuery = `SELECT id, nombre, costo, linkweb, horaInicio, horaFin FROM Lugar`;
+    const sqlQuery = `SELECT Lugar.id, foto, nombre, costo, linkweb, horaInicio, horaFin, lugar FROM Lugar
+    INNER JOIN LugarRecomendado ON Lugar.idTipoLugar = LugarRecomendado.id`;
     executeSqlQueryGet(sqlQuery, (err, resultados) => {
       if (err) {
         callback(err);
       } else {
         const lugarC = resultados.map((row) => ({
           id: row.id,
+          foto: row.foto,
           nombre: row.nombre,
           costo: row.costo,
           linkWeb: row.linkweb,
           horaInicio: row.horaInicio,
           horaFin: row.horaFin,
+          lugar: row.lugar
         }));
 
         callback(null, lugarC);
