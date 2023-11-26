@@ -29,6 +29,7 @@ static traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito,
   INNER JOIN LugarRecomendado ON LugarRecomendado.id = Lugar.idTipoLugar
   INNER JOIN Distrito ON Distrito.id = Lugar.idDistrito
   WHERE 1 = 1`;
+  
 
   if (idCategoriaPadre) {
       sqlQuery += ` AND Categoria.idCategoriaPadre = ${idCategoriaPadre}`;
@@ -43,8 +44,14 @@ static traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito,
   }
 
   if (!idCategoriaPadre && !idLugarRecomendado && !idDistrito) {
-      callback(new Error('No se proporcionaron criterios de filtrado válidos.'));
-      return;
+      sqlQuery = `SELECT DISTINCT Lugar.*
+      FROM Lugar
+        INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
+        INNER JOIN Categoria ON Categoria.id = LugarCategoria.idCategoria
+        INNER JOIN CategoriaPadre ON Categoria.idCategoriaPadre = CategoriaPadre.idCategoriaPadre
+        INNER JOIN LugarRecomendado ON LugarRecomendado.id = Lugar.idTipoLugar
+        INNER JOIN Distrito ON Distrito.id = Lugar.idDistrito;
+      `;
   }
 
   console.log('SQL Query:', sqlQuery);
@@ -53,12 +60,10 @@ static traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito,
     if(err){
       callback(err);
     }else{
-      if(resultados.length == 0){
-        callback(null, []);
-      }else{
+     
         const lugaresDeCategoria = resultados.map(row => ({ ...row }));
       callback(null, lugaresDeCategoria);
-      }
+      
     }
   });
 }

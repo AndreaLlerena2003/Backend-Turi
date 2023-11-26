@@ -10,11 +10,6 @@ router
  .get('/getFiltradoBusqueda', (req, res) => {
   const { idCategoriaPadre, idLugarRecomendado, idDistrito } = req.query;
 
-  // Verificar si se proporcionaron los parámetros requeridos
-  if (!idCategoriaPadre && !idLugarRecomendado && !idDistrito) {
-      return res.status(400).json({ error: 'Se deben proporcionar al menos uno de los parámetros: idCategoriaPadre, idLugarRecomendado o idDistrito.' });
-  }
-
   // Llamar a la función para traer lugares por filtrado
   LugarController.traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito, (err, lugares) => {
       if (err) {
