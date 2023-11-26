@@ -23,6 +23,8 @@ class LugarRecomendadoController {
         });
     }
 
+    
+
     //devolver id de lugar recomendado segun nombre de lugar recomendado
     static getLugarRecomendadoByNombre(lugar,callback) {
         const sqlQuery = `SELECT id FROM LugarRecomendado WHERE LugarRecomendado.lugar = '${lugar}'`;

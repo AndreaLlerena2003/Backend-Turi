@@ -4,13 +4,14 @@ const { Connection, Request } = require('tedious');
 
 
 
+
 const config = {
-  server: 'MSI',
+  server: 'localhost',
   authentication: {
     type: 'default',
     options: {
-      userName: 'alejandra',
-      password: '12345',
+      userName: 'andrea',
+      password: 'bella12345',
     },
   },
   options: {
@@ -19,7 +20,6 @@ const config = {
     trustServerCertificate: true,
   },
 };
-
 
 /*const config = {
   server: 'LAGORDAQUEBRISH',

@@ -21,16 +21,17 @@ static traerLugaresSegunNombre(nombre, callback) {
     }
   });
 }
-static traerLugaresPorFiltrado(idCategoria, idLugarRecomendado, idDistrito, callback) {
+static traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito, callback) {
   let sqlQuery = `SELECT * FROM Lugar
-                  INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
-                  INNER JOIN Categoria ON Categoria.id = LugarCategoria.idCategoria
-                  INNER JOIN LugarRecomendado ON LugarRecomendado.id = Lugar.idTipoLugar
-                  INNER JOIN Distrito ON Distrito.id = Lugar.idDistrito
-                  WHERE 1 = 1`;
+  INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
+  INNER JOIN Categoria ON Categoria.id = LugarCategoria.idCategoria
+  INNER JOIN CategoriaPadre ON Categoria.idCategoriaPadre = CategoriaPadre.idCategoriaPadre
+  INNER JOIN LugarRecomendado ON LugarRecomendado.id = Lugar.idTipoLugar
+  INNER JOIN Distrito ON Distrito.id = Lugar.idDistrito
+  WHERE 1 = 1`;
 
-  if (idCategoria) {
-      sqlQuery += ` AND Categoria.id = ${idCategoria}`;
+  if (idCategoriaPadre) {
+      sqlQuery += ` AND Categoria.idCategoriaPadre = ${idCategoriaPadre}`;
   }
 
   if (idDistrito) {
@@ -41,7 +42,7 @@ static traerLugaresPorFiltrado(idCategoria, idLugarRecomendado, idDistrito, call
       sqlQuery += ` AND LugarRecomendado.id = ${idLugarRecomendado}`;
   }
 
-  if (!idCategoria && !idLugarRecomendado && !idDistrito) {
+  if (!idCategoriaPadre && !idLugarRecomendado && !idDistrito) {
       callback(new Error('No se proporcionaron criterios de filtrado válidos.'));
       return;
   }
@@ -55,11 +56,7 @@ static traerLugaresPorFiltrado(idCategoria, idLugarRecomendado, idDistrito, call
       if(resultados.length == 0){
         callback(null, []);
       }else{
-        const lugaresDeCategoria = [];
-        for (let i = 0; i < resultados.length; i++) {
-          const luCat = resultados[i];
-          lugaresDeCategoria.push(luCat); 
-      }
+        const lugaresDeCategoria = resultados.map(row => ({ ...row }));
       callback(null, lugaresDeCategoria);
       }
     }
