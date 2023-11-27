@@ -22,7 +22,7 @@ static traerLugaresSegunNombre(nombre, callback) {
   });
 }
 static traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito, callback) {
-  let sqlQuery = `SELECT * FROM Lugar
+  let sqlQuery = `SELECT DISTINCT Lugar.*, LugarRecomendado.lugar, Distrito.distrito FROM Lugar
   INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
   INNER JOIN Categoria ON Categoria.id = LugarCategoria.idCategoria
   INNER JOIN CategoriaPadre ON Categoria.idCategoriaPadre = CategoriaPadre.idCategoriaPadre
@@ -44,7 +44,7 @@ static traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito,
   }
 
   if (!idCategoriaPadre && !idLugarRecomendado && !idDistrito) {
-      sqlQuery = `SELECT DISTINCT Lugar.*
+      sqlQuery = `SELECT DISTINCT Lugar.*, LugarRecomendado.lugar, Distrito.distrito
       FROM Lugar
         INNER JOIN LugarCategoria ON LugarCategoria.idLugar = Lugar.id
         INNER JOIN Categoria ON Categoria.id = LugarCategoria.idCategoria
