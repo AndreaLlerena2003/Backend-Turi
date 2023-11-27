@@ -11,7 +11,7 @@ const v1LugarRouter = require("./v1/routers/LugarRouter");
 const v1ReseñaRouter = require("./v1/routers/ReseñaRouter");
 const v1DistritoRouter = require("./v1/routers/DistritoRouter");
 const v1CategoriaPadreRouter = require("./v1/routers/CategoriaPadreRouter");
-
+const v1PreguntasRouter = require("./v1/routers/PreguntasRouter");
 
 
 const {executeSqlQuery, executeSqlQueryGet,executeSqlQueryWithGet } = require('./database/database'); 
@@ -36,6 +36,7 @@ app.use("/api/v1/LugarRouter",v1LugarRouter);
 app.use("/api/v1/ResenaRouter",v1ReseñaRouter);
 app.use("/api/v1/DistritoRouter",v1DistritoRouter);
 app.use("/api/v1/CategoriaPadreRouter",v1CategoriaPadreRouter);
+app.use("/api/v1/PreguntasRouter",v1PreguntasRouter);
 
 
 
