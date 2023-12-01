@@ -6,19 +6,19 @@ const { Connection, Request } = require('tedious');
 
 
 const config = {
-  server: 'localhost',
+  server: 'LAPTOP-LRHM32H1\\SQLEXPRESS02',
   authentication: {
-    type: 'default',
-    options: {
-      userName: 'andrea',
-      password: 'bella12345',
-    },
+      type: 'default',
+      options: {
+          userName: "TURI",
+          password: "fochito10",
+      }
   },
   options: {
-    port: 1433,
-    database: 'Turi',
-    trustServerCertificate: true,
-  },
+      port: 1433,
+      database: 'Turi',
+      trustServerCertificate: true
+  }
 };
 
 /*const config = {
