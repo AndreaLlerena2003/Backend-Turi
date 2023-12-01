@@ -96,3 +96,72 @@ test('Debería devolver un error si la contraseña es débil', (done) => {
 
   UsuarioController.registrarUsuario(usuarioMockConContraseñaDébil, callback);
 });
+
+
+
+
+
+//Prueba Unitaria: Usuario Encontrado
+test('Iniciar sesión con usuario válido', () => {
+  const usuarioMock = { id: 1, usuario: 'usuario1', contraseña: 'contraseña1' };
+  const executeSqlQueryGetMock = jest.fn().mockImplementationOnce((query, callback) => {
+    callback(null, [usuarioMock]);
+  });
+
+  // Sobrescribe la función executeSqlQueryGet con nuestro mock
+  executeSqlQueryGet = executeSqlQueryGetMock;
+
+  // Realiza la prueba
+  iniciarSesion('usuario1', 'contraseña1', (err, usuario) => {
+    expect(err).toBeNull();
+    expect(usuario).toEqual(usuarioMock);
+  });
+});
+
+
+//Prueba Unitaria: Usuario No Encontrado
+test('Iniciar sesión con usuario inválido', () => {
+  const executeSqlQueryGetMock = jest.fn().mockImplementationOnce((query, callback) => {
+    callback(null, []); // Usuario no encontrado
+  });
+
+  executeSqlQueryGet = executeSqlQueryGetMock;
+
+  iniciarSesion('usuarioNoExistente', 'contraseñaIncorrecta', (err, usuario) => {
+    expect(err).toBeNull();
+    expect(usuario).toBeNull();
+  });
+});
+
+
+
+//Prueba Unitaria: Error de Base de Datos
+test('Error al intentar iniciar sesión', () => {
+  const errorMock = new Error('Error de base de datos');
+  const executeSqlQueryGetMock = jest.fn().mockImplementationOnce((query, callback) => {
+    callback(errorMock);
+  });
+
+  executeSqlQueryGet = executeSqlQueryGetMock;
+
+  iniciarSesion('usuario', 'contraseña', (err, usuario) => {
+    expect(err).toEqual(errorMock);
+    expect(usuario).toBeUndefined();
+  });
+});
+
+
+//Prueba Unitaria: Contraseña Incorrecta
+test('Iniciar sesión con contraseña incorrecta', () => {
+  const usuarioMock = { id: 1, usuario: 'usuario1', contraseña: 'contraseña1' };
+  const executeSqlQueryGetMock = jest.fn().mockImplementationOnce((query, callback) => {
+    callback(null, [usuarioMock]);
+  });
+
+  executeSqlQueryGet = executeSqlQueryGetMock;
+
+  iniciarSesion('usuario1', 'contraseñaIncorrecta', (err, usuario) => {
+    expect(err).toBeNull();
+    expect(usuario).toBeNull();
+  });
+});
