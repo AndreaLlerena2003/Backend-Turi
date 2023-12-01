@@ -8,7 +8,6 @@ describe('LugarController', () => {
       const idLugarRecomendado = 1;
       const idDistrito = 6;
 
-      // Simulación del resultado esperado
       const expectedResult = {
         "lugares": [
           {
@@ -32,17 +31,17 @@ describe('LugarController', () => {
         ]
       };
 
-      // Simular la llamada al controlador de Lugar para traer lugares filtrados
+    
       LugarController.traerLugaresPorFiltrado(idCategoriaPadre, idLugarRecomendado, idDistrito, (err, response) => {
         if (err) {
-          // Si hay un error, la prueba fallará
+        
           done(err);
         } else {
-          // Verificar si se devolvieron lugares
+          
           expect(response).toHaveProperty('lugares');
           const lugares = response.lugares;
           
-          // Verificar si los lugares devueltos coinciden con el resultado esperado
+         
           expect(lugares).toEqual(expectedResult.lugares);
           done();
         }
