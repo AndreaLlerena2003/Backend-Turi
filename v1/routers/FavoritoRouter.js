@@ -54,6 +54,27 @@ router
         });
     })
 
+    .get('/traerViajes', (req, res) => {
+        const token = req.query.token;
+        const result = verifyToken(token);
+        if (result.error) {
+          console.error('Error al verificar el token:', result.error.message);
+          return res.status(401).json('Token no válido'); // Usar 401 Unauthorized para errores de autenticación.
+        }
+        const idUsuario = result.decoded.id;
+        ViajeController.obtenerViajesDeUsuario(idUsuario, (error, viajes) => {
+          if (error) {
+            return res.status(500).json({ error: 'Hubo un error al obtener los viajes.' });
+          }
+      
+          if (!viajes) {
+            return res.status(404).json({ message: 'No se encontraron viajes para este usuario.' });
+          }
+      
+          res.status(200).json({ viajes });
+        });
+      })
+
     // Ruta para verificar si un lugar es favorito para un usuario
     .get('/verificarFavorito', (req, res) => {
         const token = req.query.token; // Obtenemos el ID del usuario desde los parámetros de consulta
